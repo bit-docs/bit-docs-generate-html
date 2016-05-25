@@ -1,0 +1,17 @@
+{
+  "name": "bit-docs-site",
+  "version": "0.0.1",
+  "description": "A site to be built",
+  "main": "static.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Bitovi",
+  "license": "MIT",
+  "dependencies": {
+      "steal": "0.16.X"
+  },
+  "devDependencies": {
+      "steal-tools": "0.16.X"
+  }
+}

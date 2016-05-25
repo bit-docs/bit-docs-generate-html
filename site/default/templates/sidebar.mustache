@@ -1,0 +1,7 @@
+<nav class="sidebar">
+	<ul>
+	{{#sortedSidebarItems}}
+		<li ><a href="{{urlTo name}}" class="{{type}} {{#isActive}}active{{/isActive}}">{{makeTitle}}</a></li>
+	{{/sortedSidebarItems}}
+	</ul>
+</nav>

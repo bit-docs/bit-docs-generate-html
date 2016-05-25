@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+{{{generatedWarning}}}
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>{{getTitle}}</title>
+	{{^devBuild}}
+	<link rel="stylesheet" type="text/css" href="./static/bundles/static.css">
+	{{/devBuild}}
+</head>
+
+<body>
+	<header>{{> header.mustache}}</header>
+	{{{content}}}
+	<footer>{{> footer.mustache}}</footer>
+
+	<script type="text/javascript">
+		var docObject = {{{docObjectString}}};
+	</script>
+
+	{{#if devBuild}}
+		<script type='text/javascript'
+				data-main="static"
+				data-config="./static/config.js"
+				src="./static/steal/steal.js"></script>
+	{{else}}
+		<script>
+		  steal = {
+		    instantiated: {
+		      "bundles/static.css!$css" : null
+		    }
+		  }
+		</script>
+		<script type='text/javascript'
+				data-main="static"
+				data-config="./static/config.js"
+				src="./static/steal.production.js"
+	    		bundles-path="bundles"></script>
+	{{/if}}
+</body>
+
+</html>

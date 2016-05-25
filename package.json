@@ -1,0 +1,35 @@
+{
+  "name": "bit-docs-generate-html",
+  "version": "0.0.1",
+  "description": "Generates an HTML site with mustache templates",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha html_test.js --reporter spec"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bit-docs/bit-docs-generate-html.git"
+  },
+  "keywords": [
+    "donejs"
+  ],
+  "author": "Bitovi",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bit-docs/bit-docs-generate-html/issues"
+  },
+  "homepage": "https://github.com/bit-docs/bit-docs-generate-html#readme",
+  "dependencies": {
+    "enpeem": "^2.1.0",
+    "fs-extra": "0.30.0",
+    "handlebars": "1.X",
+    "lodash": "~2.4.1",
+    "md5": "2.1.0",
+    "steal": "0.16.X",
+    "steal-tools": "0.16.X"
+  },
+  "devDependencies": {
+    "mocha": ">= 1.18.0",
+    "rimraf": "2.1"
+  }
+}
