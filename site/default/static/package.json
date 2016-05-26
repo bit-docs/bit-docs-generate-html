@@ -11,7 +11,5 @@
   "dependencies": {
       "steal": "0.16.X"
   },
-  "devDependencies": {
-      "steal-tools": "0.16.X"
-  }
+  "system": {"npmAlgorithm": "flat"}
 }

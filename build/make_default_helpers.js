@@ -251,7 +251,7 @@ module.exports = function(docMap, config, getCurrent, Handlebars){
 			return stmd_to_html(content);
 		},
 		renderAsTemplate: function(content){
-			if(config.templateRender !== true) {
+			if(config.templateRender !== true && getCurrent().templateRender !== true) {
 				return content;
 			} else {
 				var renderer = Handlebars.compile(content.toString());

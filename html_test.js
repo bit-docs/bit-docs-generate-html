@@ -37,12 +37,12 @@ describe("documentjs/lib/generators/html",function(){
 
 				resolve(_.assign({
 					index: {name: "index", type: "page", body: "Hello <strong>World</strong>"}
-				}, options));
+				}));
 
 			});
 
 			html.generate(docMap,options).then(function(){
-				if(!fs.existsSync(path.join(__dirname,"test","tmp","static","can","can.js"))) {
+				if(!fs.existsSync(path.join(__dirname,"test","tmp","static","styles","styles.less"))) {
 					done(new Error("canjs does not exist"));
 				} else if(fs.existsSync(path.join(__dirname,"test","tmp","static","bundles","static.js"))) {
 					done(new Error("static build exists"));
@@ -53,7 +53,7 @@ describe("documentjs/lib/generators/html",function(){
 		}, done);
 	});
 
-	it("body is rendered as a mustache template prior to markdown", function(done){
+	it("body is rendered as a mustache template prior to markdown with templateRender", function(done){
 		this.timeout(40000);
 		rmdir(path.join(__dirname,"test","tmp"), function(e){
 			if(e) {
@@ -61,7 +61,8 @@ describe("documentjs/lib/generators/html",function(){
 			}
 			var options = {
 				dest: path.join(__dirname, "test","tmp"),
-				parent: "index"
+				parent: "index",
+				templateRender: true
 			};
 
 
@@ -78,7 +79,7 @@ describe("documentjs/lib/generators/html",function(){
 							{name: "first"}
 						]
 					}
-				}, options));
+				}));
 			});
 
 			html.generate(docMap,options).then(function(){

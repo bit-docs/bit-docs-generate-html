@@ -9,7 +9,7 @@ var getRenderer = require('./get_renderer'),
 	rmdir = require('rimraf'),
 	fs = require('fs');
 
-describe.only("documentjs/lib/generators/html/build",function(){
+describe("documentjs/lib/generators/html/build",function(){
 
 	beforeEach(function(done){
 		rmdir(path.join(__dirname,"..","site","static"), function(e){
@@ -109,13 +109,13 @@ describe.only("documentjs/lib/generators/html/build",function(){
 		this.timeout(120000);
 		build.staticDist({
 			forceBuild: true,
-			html: {dependencies: {"can-component": "3.0.0-pre.8"}}
+			html: {dependencies: {"can-component": "3.0.0-pre.9"}}
 		}).then(function(result){
-			fs.readFile(path.join(__dirname, "..", result.distFolder, "bundles","static.css"), function(err, res){
+			fs.readFile(path.join(__dirname, "..", result.distFolder, "bundles","static.js"), function(err, res){
 				if(err) {
 					done(err)
 				} else {
-					assert.ok(res, "got static.css");
+					assert.ok(/can-component/.test(res), "got static.js with component");
 					done();
 				}
 			});

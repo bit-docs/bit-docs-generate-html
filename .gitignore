@@ -3,3 +3,4 @@ site/static/
 site/static/build/
 site/static/dist/
 site/templates/
+test/tmp

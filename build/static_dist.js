@@ -108,7 +108,15 @@ function addPackages(siteConfig, buildFolder) {
 
 			json.dependencies = _.assign(json.dependencies || {},siteConfig.html.dependencies);
 
-			return writeFile( path.join(buildFolder, "package.json"), JSON.stringify(json) );
+			return writeFile( path.join(buildFolder, "package.json"), JSON.stringify(json) ).then(function(){
+
+				var deps = _.map(siteConfig.html.dependencies, function(version, packageName){
+					return '"'+packageName+'": require("'+packageName+'")'
+				});
+				var src = "module.exports = {\n\t"+deps.join(",\n\t")+"};";
+
+				return writeFile( path.join(buildFolder, "packages.js"), src);
+			});
 		})
 	} else {
 		return Q.fcall(function () {});
