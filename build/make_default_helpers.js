@@ -1,6 +1,7 @@
 var _ = require("lodash"),
 	path = require("path"),
-	stmd_to_html = require("../stmd_to_html");
+	stmd_to_html = require("../stmd_to_html"),
+	deepExtendWithoutBody = require("./deep_extend_without_body");
 
 // Helper helpers
 
@@ -267,6 +268,9 @@ module.exports = function(docMap, config, getCurrent, Handlebars){
 		getTitle: function(){
 			var root = docMap[config.parent];
 			return (root.title || root.name)+ " - "+(this.title || this.name);
+		},
+		docObjectString: function(){
+			return JSON.stringify(deepExtendWithoutBody(this))
 		}
 	};
 	return helpers;

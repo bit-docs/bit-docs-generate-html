@@ -111,7 +111,7 @@ describe("documentjs/lib/generators/html/build",function(){
 			forceBuild: true,
 			html: {dependencies: {"can-component": "3.0.0-pre.9"}}
 		}).then(function(result){
-			fs.readFile(path.join(__dirname, "..", result.distFolder, "bundles","static.js"), function(err, res){
+			fs.readFile(path.join(__dirname, "..", result.distFolder, "bundles","bit-docs-site","static.js"), function(err, res){
 				if(err) {
 					done(err)
 				} else {

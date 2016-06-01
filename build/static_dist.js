@@ -103,19 +103,21 @@ var readFile = Q.denodeify(fs.readFile),
 
 function addPackages(siteConfig, buildFolder) {
 	if(siteConfig.html && siteConfig.html.dependencies) {
-		return readFile(path.join(buildFolder, "package.json")).then(function(packageContents){
+		var fullBuildFolderPath = path.join(__dirname,"..", buildFolder);
+
+		return readFile(path.join(fullBuildFolderPath, "package.json")).then(function(packageContents){
 			var json = JSON.parse(packageContents);
 
 			json.dependencies = _.assign(json.dependencies || {},siteConfig.html.dependencies);
 
-			return writeFile( path.join(buildFolder, "package.json"), JSON.stringify(json) ).then(function(){
+			return writeFile( path.join(fullBuildFolderPath, "package.json"), JSON.stringify(json) ).then(function(){
 
 				var deps = _.map(siteConfig.html.dependencies, function(version, packageName){
 					return '"'+packageName+'": require("'+packageName+'")'
 				});
 				var src = "module.exports = {\n\t"+deps.join(",\n\t")+"};";
 
-				return writeFile( path.join(buildFolder, "packages.js"), src);
+				return writeFile( path.join(fullBuildFolderPath, "packages.js"), src);
 			});
 		})
 	} else {
@@ -124,12 +126,14 @@ function addPackages(siteConfig, buildFolder) {
 }
 
 function installPackages(options, buildFolder, distFolder, hash){
+	var fullBuildFolderPath = path.join(__dirname,"..", buildFolder);
+	
 	if(options.debug) {
 		console.log("BUILD: Installing packages");
 	}
 	var deferred = Q.defer();
 	npm.install({
-		dir: buildFolder,
+		dir: fullBuildFolderPath,
 		dependencies: [],
 		loglevel: options.debug ? "info" : "silent"
 	}, function(err){

@@ -28,6 +28,7 @@ module.exports = function(options, folders){
 		// run steal-tools and then copy things
 		return stealTools.build({
 			config: __dirname+"/package.json!npm",
+			main: "bit-docs-site/static"
 		},{
 			minify: options.minifyBuild === false ? false : true,
 			quiet: options.debug ? false : true,
