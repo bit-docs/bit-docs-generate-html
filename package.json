@@ -1,6 +1,6 @@
 {
   "name": "bit-docs-generate-html",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Generates an HTML site with mustache templates",
   "main": "index.js",
   "scripts": {
