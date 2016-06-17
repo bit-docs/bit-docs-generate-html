@@ -4,7 +4,7 @@ var _ = require("lodash"),
 	fs = require("fs"),
 	writeFile = Q.denodeify(fs.writeFile),
 	path = require("path");
-
+	mkdirs = Q.denodeify(require("fs-extra").mkdirs);
 /**
  * @function documentjs.generators.html.write.docObject
  * @parent documentjs.generators.html.write.methods
@@ -30,7 +30,7 @@ var _ = require("lodash"),
 module.exports = function(docObject, renderer, siteConfig, setCurrentDocObjectForHelpers){
 
 	var out = path.join(siteConfig.dest, filename(docObject, siteConfig) );
-	
+	var rendered;
 	if(siteConfig.debug) {
 		console.log('OUT: ' + path.relative(process.cwd(),out) );
 	}
@@ -43,8 +43,10 @@ module.exports = function(docObject, renderer, siteConfig, setCurrentDocObjectFo
 	} else {
 		rendered = renderer(docObject);
 	}
-
-	return writeFile(out, rendered);
-
+	return writeFile(out, rendered).catch(function(){
+		return mkdirs(path.dirname(out)).then(function(){
+			return writeFile(out, rendered);
+		});
+	});
 
 };
