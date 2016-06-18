@@ -44,37 +44,16 @@ var linksRegExp = /[\[](.*?)\]/g,
 	linkRegExp = /^(\S+)\s*(.*)/,
 	httpRegExp = /^http/;
 
-var replaceLinks = function (text, docMap, config) {
-	if (!text) return "";
-	var replacer = function (match, content) {
-		var parts = content.match(linkRegExp),
-			name,
-			description,
-			docObject;
-
-		name = parts ? parts[1].replace('::', '.prototype.') : content;
-
-		if (docObject = docMap[name]) {
-			description = parts && parts[2] ? parts[2] : docObject.title || name;
-			return '<a href="' + docsFilename(name, config) + '">' + description + '</a>';
-		}
-
-		var description = parts && parts[2] ? parts[2] : name;
-
-		if(httpRegExp.test(name)) {
-			description = parts && parts[2] ? parts[2] : name;
-			return '<a href="' + name + '">' + description + '</a>';
-		}
-
-		return match;
-	};
-	return text.replace(linksRegExp, replacer);
-};
 
 /**
 * @add documentjs.generators.html.defaultHelpers
 */
 module.exports = function(docMap, config, getCurrent, Handlebars){
+
+	var urlTo = function(name){
+		var dir = path.dirname( docsFilename(getCurrent().name, config) );
+		return path.relative(dir,docsFilename(name, config));
+	};
 
 	var helpers = {
 		// GENERIC HELPERS
@@ -188,7 +167,30 @@ module.exports = function(docMap, config, getCurrent, Handlebars){
 		* Looks for links like [].
 		*/
 		makeLinks: function(text){
-			return replaceLinks(text, docMap, config);
+			if (!text) return "";
+			var replacer = function (match, content) {
+				var parts = content.match(linkRegExp),
+					name,
+					description,
+					docObject;
+
+				name = parts ? parts[1].replace('::', '.prototype.') : content;
+
+				if (docObject = docMap[name]) {
+					description = parts && parts[2] ? parts[2] : docObject.title || name;
+					return '<a href="' + urlTo(name) + '">' + description + '</a>';
+				}
+
+				var description = parts && parts[2] ? parts[2] : name;
+
+				if(httpRegExp.test(name)) {
+					description = parts && parts[2] ? parts[2] : name;
+					return '<a href="' + name + '">' + description + '</a>';
+				}
+
+				return match;
+			};
+			return text.replace(linksRegExp, replacer);
 		},
 		// helper that creates a link to a docObject
 		linkTo: function(name, title, attrs){
@@ -199,7 +201,7 @@ module.exports = function(docMap, config, getCurrent, Handlebars){
 				for(var prop in attrs){
 					attrsArr.push(prop+"=\""+attrs[prop]+"\"")
 				}
-				return '<a href="' + docsFilename(name, config) + '" '+attrsArr.join(" ")+'>' + (title || name ) + '</a>';
+				return '<a href="' + urlTo(name) + '" '+attrsArr.join(" ")+'>' + (title || name ) + '</a>';
 			} else {
 				return title || name || "";
 			}
@@ -210,7 +212,7 @@ module.exports = function(docMap, config, getCurrent, Handlebars){
 		* Returns a url that links to a docObject's name.
 		*/
 		urlTo: function (name) {
-			return docsFilename(name, config);
+			return urlTo(name);
 		},
 		// If the current docObject is something
 		/**
@@ -271,6 +273,10 @@ module.exports = function(docMap, config, getCurrent, Handlebars){
 		},
 		docObjectString: function(){
 			return JSON.stringify(deepExtendWithoutBody(this))
+		},
+		pathToDest: function(){
+			var dir = path.dirname( docsFilename(getCurrent().name, config) );
+			return path.relative(dir,".") || "."
 		}
 	};
 	return helpers;

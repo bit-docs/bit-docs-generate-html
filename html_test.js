@@ -8,7 +8,8 @@ var html = require("./html"),
 	path = require('path'),
 	fs = require('fs'),
 	rmdir = require('rimraf'),
-	_ = require('lodash');
+	_ = require('lodash'),
+	readFile = Q.denodeify(fs.readFile);
 
 describe("documentjs/lib/generators/html",function(){
 	beforeEach(function(done){
@@ -90,6 +91,52 @@ describe("documentjs/lib/generators/html",function(){
 							done(err);
 						}
 						assert.ok( /<code>first<\/code>/.test(""+data), "got first" );
+						done();
+					});
+
+			},done);
+		});
+	});
+
+	it("slashes get put in a folder and can link correctly", function(done){
+		this.timeout(40000);
+		rmdir(path.join(__dirname,"test","tmp"), function(e){
+			if(e) {
+				return done(e);
+			}
+			var options = {
+				dest: path.join(__dirname, "test","tmp"),
+				parent: "index"
+			};
+
+
+			var docMap = Q.Promise(function(resolve){
+				resolve(_.assign({
+					index: {
+						name: "index",
+						type: "page",
+						body: "To [module/name]"
+					},
+					"module/name": {
+						name: "module/name",
+						body: "To [index]"
+					}
+				}));
+			});
+
+			html.generate(docMap,options).then(function(){
+				fs.readFile(
+					path.join(__dirname,"test","tmp","module","name.html"),
+					function(err, data){
+						if(err) {
+							done(err);
+						}
+
+
+						assert.ok( (""+data).indexOf('src="../static/node_modules/steal/steal.production.js"') !== -1, "got the right path to scripts" );
+						assert.ok( (""+data).indexOf('href="../static/bundles/bit-docs-site/static.css"') !== -1, "got the right path to styles" );
+						assert.ok( (""+data).indexOf('<a href="../index.html">index</a>') !== -1, "got the right thing to index" );
+
 						done();
 					});
 
