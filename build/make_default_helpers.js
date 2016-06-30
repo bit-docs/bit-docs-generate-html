@@ -277,8 +277,9 @@ module.exports = function(docMap, config, getCurrent, Handlebars){
 			return JSON.stringify(deepExtendWithoutBody(this))
 		},
 		pathToDest: function(){
-			var dir = path.dirname( docsFilename(getCurrent(), config) );
-			return path.relative(dir,".") || "."
+			var currentDir = path.dirname( path.join(config.dest, docsFilename( getCurrent(), config)) );
+
+			return path.relative(currentDir,config.dest) || "."
 		}
 	};
 	return helpers;
