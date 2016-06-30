@@ -65,7 +65,7 @@ module.exports = function(options){
 		]);
 
 		return mkdirPromise.then(function(){
-			return fss.exists(path.join(distFolder,"bundles","static.css"))
+			return fss.exists(path.join(distFolder,"bundles","bit-docs-site","static.css"))
 			.then(function(exists){
 				// If we have already built, don't build again
 				if(exists && !options.forceBuild) {
