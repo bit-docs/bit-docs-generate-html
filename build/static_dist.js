@@ -4,11 +4,12 @@ var fss = require('../fs_extras.js'),
 	md5 = require('md5'),
 	promiseLock = require("../promise_lock"),
 	npm = require("enpeem"),
-	fs = require("fs"),
+	fs = require("fs-extra"),
 	_ = require("lodash");
 
 var queue = promiseLock(),
-	buildHash = require("./build_hash");
+	buildHash = require("./build_hash"),
+	remove = Q.denodeify(fs.remove);
 
 /**
  * @function documentjs.generators.html.build.staticDist
@@ -89,6 +90,10 @@ module.exports = function(options){
 			}
 
 			return addPackages(options, buildFolder).then(function(){
+				if(options.forceBuild) {
+					return deletePackages(options, buildFolder, distFolder, hash);
+				}
+			}).then(function(){
 				return installPackages(options, buildFolder, distFolder, hash);
 			});
 		}).then(function(){
@@ -124,10 +129,13 @@ function addPackages(siteConfig, buildFolder) {
 		return Q.fcall(function () {});
 	}
 }
-
+function deletePackages(options, buildFolder, distFolder, hash) {
+	var fullBuildNodeModulesPath = path.join(__dirname,"..", buildFolder,"node_modules");
+	return remove(fullBuildNodeModulesPath);
+}
 function installPackages(options, buildFolder, distFolder, hash){
 	var fullBuildFolderPath = path.join(__dirname,"..", buildFolder);
-	
+
 	if(options.debug) {
 		console.log("BUILD: Installing packages");
 	}
