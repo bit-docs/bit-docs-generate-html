@@ -144,5 +144,50 @@ describe("documentjs/lib/generators/html",function(){
 		});
 	});
 
+	it("dest on docObject works", function(done){
+		this.timeout(40000);
+		rmdir(path.join(__dirname,"test","tmp"), function(e){
+			if(e) {
+				return done(e);
+			}
+			var options = {
+				dest: path.join(__dirname, "test","tmp","deep"),
+				parent: "index"
+			};
+
+
+			var docMap = Q.Promise(function(resolve){
+				resolve(_.assign({
+					index: {
+						name: "index",
+						type: "page",
+						body: "To [module/name]",
+						dest: "../index"
+					},
+					"module/name": {
+						name: "module/name",
+						body: "To [index]"
+					}
+				}));
+			});
+
+			html.generate(docMap,options).then(function(){
+				fs.readFile(
+					path.join(__dirname,"test","tmp","deep","module","name.html"),
+					function(err, data){
+						if(err) {
+							done(err);
+						}
+
+
+						assert.ok( (""+data).indexOf('<a href="../../index.html">index</a>') !== -1, "got the right thing to index" );
+
+						done();
+					});
+
+			},done);
+		});
+	});
+
 
 });

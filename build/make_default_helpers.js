@@ -51,8 +51,10 @@ var linksRegExp = /[\[](.*?)\]/g,
 module.exports = function(docMap, config, getCurrent, Handlebars){
 
 	var urlTo = function(name){
-		var dir = path.dirname( docsFilename(getCurrent().name, config) );
-		return path.relative(dir,docsFilename(name, config));
+		var currentDir = path.dirname( path.join(config.dest, docsFilename( getCurrent(), config)) );
+		var toPath = path.join(config.dest,docsFilename( docMap[name] || name, config));
+		var out = path.relative(currentDir,toPath);
+		return out;
 	};
 
 	var helpers = {
@@ -275,7 +277,7 @@ module.exports = function(docMap, config, getCurrent, Handlebars){
 			return JSON.stringify(deepExtendWithoutBody(this))
 		},
 		pathToDest: function(){
-			var dir = path.dirname( docsFilename(getCurrent().name, config) );
+			var dir = path.dirname( docsFilename(getCurrent(), config) );
 			return path.relative(dir,".") || "."
 		}
 	};

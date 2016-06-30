@@ -1,9 +1,9 @@
 module.exports = function(docObject, configuration){
-	var name = typeof docObject == "string" ? docObject : docObject.name;
 
-	if(!name) {
-		debugger;
-	}
+	var name = typeof docObject == "string" ? docObject : docObject.dest || docObject.name;
+
+
+
 	return configuration && name === configuration.parent ?
 		'index.html' :
 		name.replace(/ /g, "_")
