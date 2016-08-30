@@ -1,7 +1,5 @@
 require("./build/build_test");
 
-
-
 var html = require("./html"),
 	assert = require('assert'),
 	Q = require('q'),
@@ -91,6 +89,50 @@ describe("documentjs/lib/generators/html",function(){
 							done(err);
 						}
 						assert.ok( /<code>first<\/code>/.test(""+data), "got first" );
+						done();
+					});
+
+			},done);
+		});
+	});
+
+	it("closing script tags are properly escaped", function(done){
+		this.timeout(40000);
+		rmdir(path.join(__dirname,"test","tmp"), function(e){
+			if(e) {
+				return done(e);
+			}
+			var options = {
+				dest: path.join(__dirname, "test","tmp"),
+				parent: "index",
+				templateRender: true
+			};
+
+
+			var docMap = Q.Promise(function(resolve){
+				resolve(_.assign({
+					index: {
+						name: "index",
+						type: "page",
+						body: "Hello `{{thing.params.0.script}}`"
+					},
+					thing: {
+						name: "thing",
+						params: [
+							{script: "<script>function() {return true; }</script>"}
+						]
+					}
+				}));
+			});
+
+			html.generate(docMap,options).then(function(){
+				fs.readFile(
+					path.join(__dirname,"test","tmp","index.html"),
+					function(err, data){
+						if(err) {
+							done(err);
+						}
+						assert.ok( (""+data).includes("<code>&amp;lt;script&amp;gt;function() {return true; }&amp;lt;\/script&amp;gt;<\/code>"), "script closing tag escaped" );
 						done();
 					});
 
