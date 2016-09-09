@@ -97,7 +97,7 @@ module.exports = function(options){
 				return installPackages(options, buildFolder, distFolder, hash);
 			});
 		}).then(function(){
-			return {buildFolder: buildFolder, distFolder: distFolder}
+			return {buildFolder: buildFolder, distFolder: distFolder};
 		});
 	});
 
@@ -118,13 +118,15 @@ function addPackages(siteConfig, buildFolder) {
 			return writeFile( path.join(fullBuildFolderPath, "package.json"), JSON.stringify(json) ).then(function(){
 
 				var deps = _.map(siteConfig.html.dependencies, function(version, packageName){
-					return '"'+packageName+'": require("'+packageName+'")'
+					return '"'+packageName+'": callIfFunction( require("'+packageName+'") )';
 				});
-				var src = "module.exports = {\n\t"+deps.join(",\n\t")+"};";
+
+
+				var src = callIfFunction.toString() + "\nmodule.exports = {\n\t"+deps.join(",\n\t")+"};";
 
 				return writeFile( path.join(fullBuildFolderPath, "packages.js"), src);
 			});
-		})
+		});
 	} else {
 		return Q.fcall(function () {});
 	}
@@ -146,11 +148,11 @@ function installPackages(options, buildFolder, distFolder, hash){
 		loglevel: options.debug ? "info" : "silent"
 	}, function(err){
 		if(err) {
-			deferred.reject(err)
+			deferred.reject(err);
 		} else {
 			deferred.resolve();
 		}
-	})
+	});
 
 	return deferred.promise.then(function(){
 		if(options.debug) {
@@ -162,5 +164,13 @@ function installPackages(options, buildFolder, distFolder, hash){
 			dist: distFolder,
 			build: buildFolder
 		});
-	})
+	});
+}
+
+
+function callIfFunction(value){
+  if(typeof value === "function") {
+	value();
+  }
+  return value;
 }
