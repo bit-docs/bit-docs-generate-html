@@ -57,6 +57,13 @@ module.exports = function(docMap, config, getCurrent, Handlebars){
 		return out;
 	};
 
+	var pathToRoot = function(name){
+		var toPath = path.join(config.dest, docsFilename(docMap[name] || name, config));
+		var root = config.cwd || config.dest;
+		var out = path.relative(path.dirname(toPath), root);
+		return out;
+	};
+
 	var helpers = {
 		// GENERIC HELPERS
 		/**
@@ -274,6 +281,7 @@ module.exports = function(docMap, config, getCurrent, Handlebars){
 			return (root.title || root.name)+ " - "+(this.title || this.name);
 		},
 		docObjectString: function(){
+			this.pathToRoot = pathToRoot(this.name);
 			return JSON.stringify(deepExtendWithoutBody(this)).replace("</script>", "<\\/script>");
 		},
 		pathToDest: function(){
