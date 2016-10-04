@@ -262,12 +262,12 @@ module.exports = function(docMap, config, getCurrent, Handlebars){
 		makeHtml: function(content){
 			return stmd_to_html(content);
 		},
-		renderAsTemplate: function(content){
-			if(config.templateRender !== true && getCurrent().templateRender !== true) {
-				return content;
-			} else {
+		renderAsTemplate: function(content) {
+			if(getCurrent().templaterender || config.templateRender || getCurrent().templateRender) {
 				var renderer = Handlebars.compile(content.toString());
 				return renderer(docMap);
+			} else {
+				return content;
 			}
 		},
 		/**
