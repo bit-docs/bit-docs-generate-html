@@ -263,10 +263,28 @@ module.exports = function(docMap, config, getCurrent, Handlebars){
 			return stmd_to_html(content);
 		},
 		renderAsTemplate: function(content) {
-			if(getCurrent().templaterender || config.templateRender || getCurrent().templateRender) {
-				var renderer = Handlebars.compile(content.toString());
+			var templateRender = config.templateRender || getCurrent().templateRender,
+				renderer;
+
+			if (templateRender === true) {
+				// Render {{}} if templateRender tag/option is true
+				renderer = Handlebars.compile(content.toString());
 				return renderer(docMap);
+			} else if (templateRender && templateRender.length === 2) {
+				// Render custom delimiters if supplied by templateRender
+				var open = new RegExp(templateRender[0], 'g'),
+					close = new RegExp(templateRender[1], 'g'),
+					toRender = content
+						.replace(/{{/g, '\\{\\{')
+						.replace(/}}/g, '\\}\\}')
+						.replace(open, '{{')
+						.replace(close, '}}');
+				renderer = Handlebars.compile(toRender);
+				return renderer(docMap)
+					.replace('\\{\\{', '{{')
+					.replace('\\}\\}', '}}');
 			} else {
+				// Otherwise, just return the content
 				return content;
 			}
 		},
