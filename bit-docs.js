@@ -1,5 +1,6 @@
 var generator = require("./html");
 var _ = require("lodash");
+var tags = require("./tags/tags");
 
 var mergeOnto = function(prop, dest, source){
     if(source[prop]) {
@@ -8,7 +9,9 @@ var mergeOnto = function(prop, dest, source){
 };
 
 module.exports = function(bitDocs){
-    bitDocs.register("generator", generator );
+    bitDocs.register("generator", generator);
+
+	bitDocs.register("tags", tags);
 
     bitDocs.handle("html", function(siteConfig, htmlConfig) {
         if(!siteConfig.html) {
