@@ -281,8 +281,8 @@ module.exports = function(docMap, config, getCurrent, Handlebars){
 						.replace(close, '}}');
 				renderer = Handlebars.compile(toRender);
 				return renderer(docMap)
-					.replace('\\{\\{', '{{')
-					.replace('\\}\\}', '}}');
+					.replace(/\\{\\{/g, '{{')
+					.replace(/\\}\\}/g, '}}');
 			} else {
 				// Otherwise, just return the content
 				return content;
