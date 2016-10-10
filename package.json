@@ -27,6 +27,7 @@
   "homepage": "https://github.com/bit-docs/bit-docs-generate-html#readme",
   "dependencies": {
     "enpeem": "^2.1.0",
+    "escape-html": "^1.0.3",
     "fs-extra": "0.30.0",
     "handlebars": "1.X",
     "lodash": "~4.13.1",

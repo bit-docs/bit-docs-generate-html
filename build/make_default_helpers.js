@@ -1,7 +1,8 @@
 var _ = require("lodash"),
 	path = require("path"),
 	stmd_to_html = require("../stmd_to_html"),
-	deepExtendWithoutBody = require("./deep_extend_without_body");
+	deepExtendWithoutBody = require("./deep_extend_without_body"),
+	escape = require('escape-html');
 
 // Helper helpers
 
@@ -15,7 +16,7 @@ var sortChildren = function(child1, child2){
 			if(child1.order == child2.order){
 				// sort by name
 				if(child1.name < child2.name){
-					return -1
+					return -1;
 				}
 				return 1;
 			} else {
@@ -31,7 +32,7 @@ var sortChildren = function(child1, child2){
 		} else {
 			// alphabetical
 			if(child1.name < child2.name){
-				return -1
+				return -1;
 			}
 			return 1;
 		}
@@ -149,10 +150,10 @@ module.exports = function(docMap, config, getCurrent, Handlebars){
 		* in the sidebar and the page header.
 		*/
 		makeTitle: function () {
-			var node = this;
+			var node = this, title;
 
 			if (node.title) {
-				return node.title
+				return node.title;
 			}
 			// name: "cookbook/recipe/list.static.defaults"
 			// parent: "cookbook/recipe/list.static"
@@ -160,11 +161,11 @@ module.exports = function(docMap, config, getCurrent, Handlebars){
 			var parentParent = docMap[node.parent] && docMap[node.parent].parent;
 			// check if we can replace with our parent
 
-			if( node.name.indexOf(node.parent + ".") == 0){
-				var title = node.name.replace(node.parent + ".", "");
-			} else if(parentParent && parentParent.indexOf(".") > 0 && node.name.indexOf(parentParent + ".") == 0){
+			if( node.name.indexOf(node.parent + ".") === 0){
+				title = node.name.replace(node.parent + ".", "");
+			} else if(parentParent && parentParent.indexOf(".") > 0 && node.name.indexOf(parentParent + ".") === 0){
 				// try with our parents parent
-				var title = node.name.replace(parentParent + ".", "");
+				title = node.name.replace(parentParent + ".", "");
 			} else {
 				title = node.name;
 			}
@@ -187,14 +188,14 @@ module.exports = function(docMap, config, getCurrent, Handlebars){
 
 				if (docObject = docMap[name]) {
 					description = parts && parts[2] ? parts[2] : docObject.title || name;
-					return '<a href="' + urlTo(name) + '">' + description + '</a>';
+					return '<a href="' + urlTo(name) + '">' + escape( description ) + '</a>';
 				}
 
 				var description = parts && parts[2] ? parts[2] : name;
 
 				if(httpRegExp.test(name)) {
 					description = parts && parts[2] ? parts[2] : name;
-					return '<a href="' + name + '">' + description + '</a>';
+					return '<a href="' + name + '">' + escape( description ) + '</a>';
 				}
 
 				return match;
@@ -208,7 +209,7 @@ module.exports = function(docMap, config, getCurrent, Handlebars){
 			if (docMap[name]) {
 				var attrsArr = [];
 				for(var prop in attrs){
-					attrsArr.push(prop+"=\""+attrs[prop]+"\"")
+					attrsArr.push(prop+"=\""+attrs[prop]+"\"");
 				}
 				return '<a href="' + urlTo(name) + '" '+attrsArr.join(" ")+'>' + (title || name ) + '</a>';
 			} else {
@@ -305,7 +306,7 @@ module.exports = function(docMap, config, getCurrent, Handlebars){
 		pathToDest: function(){
 			var currentDir = path.dirname( path.join(config.dest, docsFilename( getCurrent(), config)) );
 
-			return path.relative(currentDir,config.dest) || "."
+			return path.relative(currentDir,config.dest) || ".";
 		}
 	};
 	return helpers;
