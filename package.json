@@ -32,7 +32,8 @@
     "handlebars": "1.X",
     "lodash": "~4.13.1",
     "md5": "2.1.0",
-    "steal-tools": "0.16.X"
+    "steal-tools": "0.16.X",
+    "striptags": "^2.1.1"
   },
   "devDependencies": {
     "mocha": ">= 1.18.0",
