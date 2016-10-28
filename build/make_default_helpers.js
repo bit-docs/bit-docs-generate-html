@@ -66,10 +66,9 @@ module.exports = function(docMap, config, getCurrent, Handlebars){
 	};
 
 	var stripMarkdown = function(description) {
-		description = description.replace(/\n/g, '');
-		var html = helpers.makeHtml(description).replace(/[\[](.*?)\]/g, function(str) {
+		var html = helpers.makeHtml(description).replace(linksRegExp, function(str) {
 			str = str.replace(/[\[]|[\]]/g, '');
-			var parts = str.match(/^(\S+)\s*(.*)/);
+			var parts = str.match(linkRegExp);
 			if (parts && parts[2]) {
 				return parts[2];
 			}
@@ -331,7 +330,8 @@ module.exports = function(docMap, config, getCurrent, Handlebars){
 			var currentDir = path.dirname( path.join(config.dest, docsFilename( getCurrent(), config)) );
 
 			return path.relative(currentDir,config.dest) || ".";
-		}
+		},
+		stripMarkdown: stripMarkdown
 	};
 	return helpers;
 };
