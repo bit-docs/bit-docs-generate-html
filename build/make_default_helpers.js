@@ -2,7 +2,8 @@ var _ = require("lodash"),
 	path = require("path"),
 	stmd_to_html = require("../stmd_to_html"),
 	deepExtendWithoutBody = require("./deep_extend_without_body"),
-	escape = require('escape-html');
+	escape = require('escape-html'),
+	striptags = require('striptags');
 
 // Helper helpers
 
@@ -45,7 +46,6 @@ var linksRegExp = /[\[](.*?)\]/g,
 	linkRegExp = /^(\S+)\s*(.*)/,
 	httpRegExp = /^http/;
 
-
 /**
 * @add documentjs.generators.html.defaultHelpers
 */
@@ -63,6 +63,19 @@ module.exports = function(docMap, config, getCurrent, Handlebars){
 		var root = config.cwd || config.dest;
 		var out = path.relative(path.dirname(toPath), root);
 		return out;
+	};
+
+	var stripMarkdown = function(description) {
+		description = description.replace(/\n/g, '');
+		var html = helpers.makeHtml(description).replace(/[\[](.*?)\]/g, function(str) {
+			str = str.replace(/[\[]|[\]]/g, '');
+			var parts = str.match(/^(\S+)\s*(.*)/);
+			if (parts && parts[2]) {
+				return parts[2];
+			}
+			return parts[1].split('\/').pop();
+		});
+		return striptags(html).trim();
 	};
 
 	var helpers = {
@@ -182,20 +195,22 @@ module.exports = function(docMap, config, getCurrent, Handlebars){
 				var parts = content.match(linkRegExp),
 					name,
 					description,
+					linkText,
 					docObject;
 
 				name = parts ? parts[1].replace('::', '.prototype.') : content;
 
-				if (docObject = docMap[name]) {
-					description = parts && parts[2] ? parts[2] : docObject.title || name;
-					return '<a href="' + urlTo(name) + '">' + escape( description ) + '</a>';
+				docObject = docMap[name]
+				if (docObject) {
+					linkText = parts && parts[2] ? parts[2] : docObject.title || name;
+					description = docObject.description || name;
+
+					return '<a href="' + urlTo(name) + '" title="' + stripMarkdown(description) + '">' + escape(linkText) + '</a>';
 				}
 
-				var description = parts && parts[2] ? parts[2] : name;
-
-				if(httpRegExp.test(name)) {
-					description = parts && parts[2] ? parts[2] : name;
-					return '<a href="' + name + '">' + escape( description ) + '</a>';
+				if (httpRegExp.test(name)) {
+					linkText = parts && parts[2] ? parts[2] : name;
+					return '<a href="' + name + '" title="' + escape(linkText) + '">' + escape(linkText) + '</a>';
 				}
 
 				return match;
@@ -206,7 +221,16 @@ module.exports = function(docMap, config, getCurrent, Handlebars){
 		linkTo: function(name, title, attrs){
 			if (!name) return (title || "");
 			name = name.replace('::', '.prototype.');
-			if (docMap[name]) {
+			var docObject = docMap[name];
+			if (docObject) {
+				if (!attrs) {
+					attrs = {};
+				}
+				if (!attrs.title) {
+					var linkTitle = docObject.description || name;
+					attrs.title = stripMarkdown(linkTitle);
+					console.log('doing this for ', name);
+				}
 				var attrsArr = [];
 				for(var prop in attrs){
 					attrsArr.push(prop+"=\""+attrs[prop]+"\"");
