@@ -65,8 +65,8 @@ module.exports = function(docMap, config, getCurrent, Handlebars){
 		return out;
 	};
 
-	var stripMarkdown = function(description) {
-		var html = helpers.makeHtml(description).replace(linksRegExp, function(str) {
+	var stripMarkdown = function(content) {
+		var html = helpers.makeHtml(content).replace(linksRegExp, function(str) {
 			str = str.replace(/[\[]|[\]]/g, '');
 			var parts = str.match(linkRegExp);
 			if (parts && parts[2]) {
