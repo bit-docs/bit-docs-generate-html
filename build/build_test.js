@@ -122,7 +122,7 @@ describe("documentjs/lib/generators/html/build",function(){
 		}, done);
 	});
 
-	it.only("escapes linked content (#5)",function(done){
+	it.only("makes linked content",function(done){
 		var options = {
 			html: { templates: path.join(__dirname,"test","escaped") },
 			dest: "XXXXYYYZZZ",
@@ -158,7 +158,7 @@ describe("documentjs/lib/generators/html/build",function(){
 			var renderer = results[0];
 
 			var result = renderer(docObject);
-			assert.equal(result, "<html><p>This is <a href=\"something.html\" title=\"something\">&lt;something/&gt;</a></p>\n\n</html>");
+			assert.equal(result, "<html><p>This is <a href=\"something.html\" title=\"something\"><something/></a></p>\n\n</html>");
 			done();
 		},done).catch(done);
 	});
