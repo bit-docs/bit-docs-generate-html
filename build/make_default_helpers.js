@@ -204,12 +204,12 @@ module.exports = function(docMap, config, getCurrent, Handlebars){
 					linkText = parts && parts[2] ? parts[2] : docObject.title || name;
 					description = docObject.description || name;
 
-					return '<a href="' + urlTo(name) + '" title="' + stripMarkdown(description) + '">' + escape(linkText) + '</a>';
+					return '<a href="' + urlTo(name) + '" title="' + stripMarkdown(description) + '">' + linkText + '</a>';
 				}
 
 				if (httpRegExp.test(name)) {
 					linkText = parts && parts[2] ? parts[2] : name;
-					return '<a href="' + name + '" title="' + escape(linkText) + '">' + escape(linkText) + '</a>';
+					return '<a href="' + name + '" title="' + escape(linkText) + '">' + linkText + '</a>';
 				}
 
 				return match;
