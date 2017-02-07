@@ -177,7 +177,7 @@ describe("documentjs/lib/generators/html",function(){
 
 						assert.ok( (""+data).indexOf('src="../static/node_modules/steal/steal.production.js"') !== -1, "got the right path to scripts" );
 						assert.ok( (""+data).indexOf('href="../static/bundles/bit-docs-site/static.css"') !== -1, "got the right path to styles" );
-						assert.ok( (""+data).indexOf('<a href="../index.html">index</a>') !== -1, "got the right thing to index" );
+						assert.ok( (""+data).indexOf('<a href="../index.html" title="index">index</a>') !== -1, "got the right thing to index" );
 
 						done();
 					});
@@ -222,7 +222,78 @@ describe("documentjs/lib/generators/html",function(){
 						}
 
 
-						assert.ok( (""+data).indexOf('<a href="../../index.html">index</a>') !== -1, "got the right thing to index" );
+						assert.ok( (""+data).indexOf('<a href="../../index.html" title="index">index</a>') !== -1, "got the right thing to index" );
+
+						done();
+					});
+
+			},done);
+		});
+	});
+
+	it("basic sidebar works", function(done){
+		this.timeout(40000);
+		rmdir(path.join(__dirname,"test","tmp"), function(e){
+			if(e) {
+				return done(e);
+			}
+			var options = {
+				dest: path.join(__dirname, "test","tmp","sidebar"),
+				parent: "earth",
+				forceBuild: true
+			};
+
+
+			var docMap = Q.Promise(function(resolve){
+				resolve(_.assign({
+					earth: {
+						name: "earth",
+						type: "page",
+						body: "Welcome to earth"
+					},
+					"Americas": {
+						parent: "earth",
+						name: "Americas",
+						body: "Americas"
+					},
+					"USA": {
+						parent: "Americas",
+						name: "USA",
+						body: "USA"
+					},
+					"Mexico": {
+						parent: "Americas",
+						name: "Mexico",
+						body: "Mexico"
+					},
+					"Asia": {
+						parent: "earth",
+						name: "Asia",
+						body: "Asia"
+					},
+					"China": {
+						parent: "Asia",
+						name: "China",
+						body: "China"
+					},
+					"India": {
+						parent: "Asia",
+						name: "India",
+						body: "India"
+					}
+				}));
+			});
+
+			html.generate(docMap,options).then(function(){
+				fs.readFile(
+					path.join(__dirname,"test","tmp","sidebar","India.html"),
+					function(err, data){
+						if(err) {
+							done(err);
+						}
+
+						assert.ok( (""+data).indexOf('href="Asia.html"') !== -1, "link to asia" );
+						assert.ok( (""+data).indexOf('href="China.html"') !== -1, "link to china" );
 
 						done();
 					});

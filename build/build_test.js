@@ -122,7 +122,7 @@ describe("documentjs/lib/generators/html/build",function(){
 		}, done);
 	});
 
-	it.only("makes linked content",function(done){
+	it("makes linked content",function(done){
 		var options = {
 			html: { templates: path.join(__dirname,"test","escaped") },
 			dest: "XXXXYYYZZZ",

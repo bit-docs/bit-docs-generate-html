@@ -2,7 +2,8 @@ var fs = require('fs'),
 	path = require('path'),
 	filename = require("./filename"),
 	Q = require('q'),
-	writeFile = Q.denodeify(fs.writeFile);
+	writeFile = Q.denodeify(fs.writeFile),
+	mkdirs = Q.denodeify(require("fs-extra").mkdirs);
 
 /**
  * @function bitDocs.generators.html.write.searchMap
@@ -35,5 +36,8 @@ module.exports = function(docMap, siteConfig) {
 
 	var dest = path.join(siteConfig.dest, 'searchMap.json');
 
-	return writeFile(dest, JSON.stringify(searchMap));
+	return mkdirs(siteConfig.dest).then(function(){
+		return writeFile(dest, JSON.stringify(searchMap));
+	});
+
 };

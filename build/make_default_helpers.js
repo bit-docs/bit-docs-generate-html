@@ -3,8 +3,9 @@ var _ = require("lodash"),
 	stmd_to_html = require("../stmd_to_html"),
 	deepExtendWithoutBody = require("./deep_extend_without_body"),
 	escape = require('escape-html'),
-	striptags = require('striptags');
-
+	striptags = require('striptags'),
+	DocMapInfo = require("../doc-map-info"),
+	unescapeHTML = require("unescape-html");
 // Helper helpers
 
 
@@ -51,6 +52,8 @@ var linksRegExp = /[\[](.*?)\]/g,
 */
 module.exports = function(docMap, config, getCurrent, Handlebars){
 
+	var docMapInfo = new DocMapInfo(docMap, getCurrent);
+
 	var urlTo = function(name){
 		var currentDir = path.dirname( path.join(config.dest, docsFilename( getCurrent(), config)) );
 		var toPath = path.join(config.dest,docsFilename( docMap[name] || name, config));
@@ -78,6 +81,73 @@ module.exports = function(docMap, config, getCurrent, Handlebars){
 	};
 
 	var helpers = {
+		// DOC MAP HELPERS
+		getCurrentTree: function(){
+            return docMapInfo.getCurrentTree();
+        },
+		isGroup: function(docObject){
+            return docMapInfo.isGroup(docObject);
+        },
+		isCurrent: function(docObject, options){
+            return docMapInfo.isCurrent(docObject);
+        },
+        hasCurrent: function(docObject) {
+            return docMapInfo.hasCurrent(docObject);
+        },
+        hasOrIsCurrent: function(docObject){
+            return docMapInfo.hasOrIsCurrent(docObject);
+        },
+        getTitle: function(docObject){
+            return docMapInfo.getTitle(this);
+        },
+        getLinkTitle: function(docObject) {
+            var description = docObject.description || docObject.name;
+            description = helpers.stripMarkdown(description);
+            return unescapeHTML(description);
+        },
+        getShortTitle: function(docObject){
+            return docMapInfo.getShortTitle(docObject);
+        },
+		sortChildren: function(children) {
+            var ordered = [],
+                sorted = [];
+
+            children.forEach(function(el) {
+                var doc = el.docObject;
+                if (doc && typeof doc.order === 'number') {
+                    ordered.push(el);
+                } else {
+                    sorted.push(el);
+                }
+            });
+
+            // Sort alphabetically, "/" comes before "-"
+            sorted.sort(function(x,y) {
+                var a = x.docObject.name.replace(/\//g, '!'),
+                    b = y.docObject.name.replace(/\//g, '!');
+
+                if (a < b) {
+                    return -1;
+                }
+                if (a > b) {
+                    return 1;
+                }
+                return 0;
+            });
+
+            // Sort by docObject "ordered" property
+            ordered.sort(function(x,y) {
+                return x.docObject.order > y.docObject.order;
+            });
+
+            // Insert ordered items to their index in the alphabetical array
+            ordered.forEach(function(el) {
+                sorted.splice(el.docObject.order, 0, el);
+            });
+
+            return sorted;
+        },
+
 		// GENERIC HELPERS
 		/**
 		* @function documentjs.generators.html.defaultHelpers.ifEqual
