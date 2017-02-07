@@ -30,6 +30,7 @@
     "escape-html": "^1.0.3",
     "fs-extra": "0.30.0",
     "handlebars": "1.X",
+    "js-beautify": "^1.6.8",
     "lodash": "~4.13.1",
     "md5": "2.1.0",
     "steal-tools": "0.16.X",
