@@ -297,8 +297,7 @@ module.exports = function(docMap, config, getCurrent, Handlebars){
 				}
 				if (!attrs.title) {
 					var linkTitle = docObject.description || name;
-					attrs.title = stripMarkdown(linkTitle);
-					console.log('doing this for ', name);
+					attrs.title = stripMarkdown(linkTitle);					
 				}
 				var attrsArr = [];
 				for(var prop in attrs){
