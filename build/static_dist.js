@@ -1,7 +1,6 @@
 var fss = require('../fs_extras.js'),
 	Q = require('q'),
 	path = require('path'),
-	md5 = require('md5'),
 	promiseLock = require("../promise_lock"),
 	npm = require("enpeem"),
 	fs = require("fs-extra"),
@@ -10,6 +9,77 @@ var fss = require('../fs_extras.js'),
 var queue = promiseLock(),
 	buildHash = require("./build_hash"),
 	remove = Q.denodeify(fs.remove);
+
+var readFile = Q.denodeify(fs.readFile),
+	writeFile = Q.denodeify(fs.writeFile);
+
+function callIfFunction(value){
+  if(typeof value === "function") {
+	value();
+  }
+  return value;
+}
+
+function addPackages(siteConfig, buildFolder) {
+	if(siteConfig.html && siteConfig.html.dependencies) {
+		var fullBuildFolderPath = path.join(__dirname,"..", buildFolder);
+
+		return readFile(path.join(fullBuildFolderPath, "package.json")).then(function(packageContents){
+			var json = JSON.parse(packageContents);
+
+			json.dependencies = _.assign(json.dependencies || {},siteConfig.html.dependencies);
+
+			return writeFile( path.join(fullBuildFolderPath, "package.json"), JSON.stringify(json) ).then(function(){
+
+				var deps = _.map(siteConfig.html.dependencies, function(version, packageName){
+					return '"'+packageName+'": callIfFunction( require("'+packageName+'") )';
+				});
+
+
+				var src = callIfFunction.toString() + "\nmodule.exports = {\n\t"+deps.join(",\n\t")+"};";
+
+				return writeFile( path.join(fullBuildFolderPath, "packages.js"), src);
+			});
+		});
+	} else {
+		return Q.fcall(function () {});
+	}
+}
+function deletePackages(options, buildFolder) {
+	var fullBuildNodeModulesPath = path.join(__dirname,"..", buildFolder,"node_modules");
+	return remove(fullBuildNodeModulesPath);
+}
+function installPackages(options, buildFolder, distFolder, hash){
+	var fullBuildFolderPath = path.join(__dirname,"..", buildFolder);
+
+	if(options.debug) {
+		console.log("BUILD: Installing packages");
+	}
+	var deferred = Q.defer();
+	npm.install({
+		dir: fullBuildFolderPath,
+		dependencies: [],
+		loglevel: options.debug ? "info" : "silent"
+	}, function(err){
+		if(err) {
+			deferred.reject(err);
+		} else {
+			deferred.resolve();
+		}
+	});
+
+	return deferred.promise.then(function(){
+		if(options.debug) {
+			console.log("BUILD: Getting build module");
+		}
+
+		var build = require("../site/static/build/"+hash+"/build.js");
+		return build(options,{
+			dist: distFolder,
+			build: buildFolder
+		});
+	});
+}
 
 /**
  * @function documentjs.generators.html.build.staticDist
@@ -79,8 +149,8 @@ module.exports = function(options){
 
 				return fss.copy(path.join("site","default","static"), buildFolder)
 				.then(function(){
-					if(options["static"]){
-						return fss.copyFrom(options["static"], buildFolder);
+					if(options.static){
+						return fss.copyFrom(options.static, buildFolder);
 					}
 				});
 			});
@@ -103,74 +173,3 @@ module.exports = function(options){
 
 };
 
-var readFile = Q.denodeify(fs.readFile),
-	writeFile = Q.denodeify(fs.writeFile);
-
-function addPackages(siteConfig, buildFolder) {
-	if(siteConfig.html && siteConfig.html.dependencies) {
-		var fullBuildFolderPath = path.join(__dirname,"..", buildFolder);
-
-		return readFile(path.join(fullBuildFolderPath, "package.json")).then(function(packageContents){
-			var json = JSON.parse(packageContents);
-
-			json.dependencies = _.assign(json.dependencies || {},siteConfig.html.dependencies);
-
-			return writeFile( path.join(fullBuildFolderPath, "package.json"), JSON.stringify(json) ).then(function(){
-
-				var deps = _.map(siteConfig.html.dependencies, function(version, packageName){
-					return '"'+packageName+'": callIfFunction( require("'+packageName+'") )';
-				});
-
-
-				var src = callIfFunction.toString() + "\nmodule.exports = {\n\t"+deps.join(",\n\t")+"};";
-
-				return writeFile( path.join(fullBuildFolderPath, "packages.js"), src);
-			});
-		});
-	} else {
-		return Q.fcall(function () {});
-	}
-}
-function deletePackages(options, buildFolder, distFolder, hash) {
-	var fullBuildNodeModulesPath = path.join(__dirname,"..", buildFolder,"node_modules");
-	return remove(fullBuildNodeModulesPath);
-}
-function installPackages(options, buildFolder, distFolder, hash){
-	var fullBuildFolderPath = path.join(__dirname,"..", buildFolder);
-
-	if(options.debug) {
-		console.log("BUILD: Installing packages");
-	}
-	var deferred = Q.defer();
-	npm.install({
-		dir: fullBuildFolderPath,
-		dependencies: [],
-		loglevel: options.debug ? "info" : "silent"
-	}, function(err){
-		if(err) {
-			deferred.reject(err);
-		} else {
-			deferred.resolve();
-		}
-	});
-
-	return deferred.promise.then(function(){
-		if(options.debug) {
-			console.log("BUILD: Getting build module");
-		}
-
-		var build = require("../site/static/build/"+hash+"/build.js");
-		return build(options,{
-			dist: distFolder,
-			build: buildFolder
-		});
-	});
-}
-
-
-function callIfFunction(value){
-  if(typeof value === "function") {
-	value();
-  }
-  return value;
-}
