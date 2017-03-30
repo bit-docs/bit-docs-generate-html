@@ -70,12 +70,16 @@ module.exports = function(docMap, config, getCurrent, Handlebars){
 
 	var stripMarkdown = function(content) {
 		var html = helpers.makeHtml(content).replace(linksRegExp, function(str) {
-			str = str.replace(/[\[]|[\]]/g, '');
-			var parts = str.match(linkRegExp);
+			var noBrackets = str.replace(/[\[]|[\]]/g, '');
+			var parts = noBrackets.match(linkRegExp);
 			if (parts && parts[2]) {
 				return parts[2];
 			}
-			return parts[1].split('\/').pop();
+			if(parts) {
+				return parts[1].split('\/').pop();
+			} else {
+				return str;
+			}
 		});
 		return striptags(html).trim();
 	};
@@ -297,7 +301,7 @@ module.exports = function(docMap, config, getCurrent, Handlebars){
 				}
 				if (!attrs.title) {
 					var linkTitle = docObject.description || name;
-					attrs.title = stripMarkdown(linkTitle);					
+					attrs.title = stripMarkdown(linkTitle);
 				}
 				var attrsArr = [];
 				for(var prop in attrs){
