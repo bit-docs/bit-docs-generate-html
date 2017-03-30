@@ -1,3 +1,5 @@
+var path = require("path");
+
 var DocMapInfo = function(docMap, getCurrent) {
     this.docMap = docMap;
     this.childrenMap = makeChildrenMap(docMap);
@@ -198,8 +200,8 @@ var compareDocObjects = function(child1, child2){
 		return -1;
 	}
 
-	if(typeof child1.order == "number"){
-		if(typeof child2.order == "number"){
+	if(typeof child1.order === "number"){
+		if(typeof child2.order === "number"){
 			// same order given?
 			if(child1.order == child2.order){
 				// sort by name
@@ -215,7 +217,7 @@ var compareDocObjects = function(child1, child2){
 			return -1;
 		}
 	} else {
-		if(typeof child2.order == "number"){
+		if(typeof child2.order === "number"){
 			return 1;
 		} else {
 			// alphabetical
