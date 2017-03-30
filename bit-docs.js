@@ -8,6 +8,18 @@ var mergeOnto = function(prop, dest, source){
     }
 };
 
+/**
+ * @module {function} bit-docs-generate-html
+ * @parent BitDocs
+ * @group bit-docs-generate-html/modules modules
+ *
+ * @description Generates HTML for a docMap.  Supports plugins.
+ *
+ * @body
+ *
+ * Blah blah
+ */
+
 module.exports = function(bitDocs){
     bitDocs.register("generator", generator);
 

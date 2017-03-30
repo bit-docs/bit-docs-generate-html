@@ -9,28 +9,28 @@ var buildTemplates = require("./templates"),
 
 
 /**
- * @function documentjs.generators.html.build.renderer
- * @parent documentjs.generators.html.build.methods
- * 
+ * @module {function} bit-docs-generate-html/build/renderer
+ * @parent bit-docs-generate-html/modules
+ *
  * Creates a renderer function used to generate
  * the documentation.
- * 
+ *
  * @signature `.build.renderer(buildTemplatesPromise, options)`
- * 
- * Registers all `.mustache` files in the _documentjs/site/templates_ folder as 
+ *
+ * Registers all `.mustache` files in the _documentjs/site/templates_ folder as
  * partials and creates a [documentjs.generators.html.types.renderer renderer] function that
- * renders the `content.mustache` template within the `layout.mustache` template. 
- * 
- * @param {Promise<Handlebars>} buildTemplatesPromise The result of calling 
+ * renders the `content.mustache` template within the `layout.mustache` template.
+ *
+ * @param {Promise<Handlebars>} buildTemplatesPromise The result of calling
  * [documentjs.generators.html.build.templates]. Building the renderer
- * must happen after the templates have been copied over. Passing this 
+ * must happen after the templates have been copied over. Passing this
  * argument enforces that.
- * 
+ *
  * @param {{}} options
- * 
+ *
  * Options used to configure the behavior of the renderer.
- * 
- * 
+ *
+ *
  * @return {Promise<documentjs.generators.html.types.renderer>} A promise that
  * resolves with the renderer function.
  */
@@ -49,4 +49,3 @@ module.exports = function(buildTemplatesPromise, options){
 		});
 	});
 };
-	
