@@ -66,7 +66,7 @@ module.exports = function(siteConfig){
 		};
 
 		// if forceBuild, copy all templates over again
-		if(siteConfig.forceBuild) {
+		if(siteConfig.forceBuild || siteConfig.cacheBust) {
 			return makeTemplates();
 		} else {
 			return fsx.exists(target).then(function(exists){

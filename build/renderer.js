@@ -6,8 +6,6 @@ var buildTemplates = require("./templates"),
 	Q = require("q"),
 	buildHash = require("./build_hash");
 
-
-
 /**
  * @module {function} bit-docs-generate-html/build/renderer
  * @parent bit-docs-generate-html/modules

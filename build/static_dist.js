@@ -68,7 +68,7 @@ module.exports = function(options){
 			return fss.exists(path.join(distFolder,"bundles","bit-docs-site","static.css"))
 			.then(function(exists){
 				// If we have already built, don't build again
-				if(exists && !options.forceBuild) {
+				if(exists && !options.forceBuild && !options.cacheBust) {
 					builtAlready = true;
 					if(options.debug) {
 						console.log("BUILD: Using cache",distFolder);
@@ -90,7 +90,7 @@ module.exports = function(options){
 			}
 
 			return addPackages(options, buildFolder).then(function(){
-				if(options.forceBuild) {
+				if(options.forceBuild || options.cacheBust) {
 					return deletePackages(options, buildFolder, distFolder, hash);
 				}
 			}).then(function(){
