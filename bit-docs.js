@@ -10,14 +10,14 @@ var mergeOnto = function(prop, dest, source){
 
 /**
  * @module {function} bit-docs-generate-html
- * @parent BitDocs
  * @group bit-docs-generate-html/modules modules
+ * @parent plugins
  *
  * @description Generates HTML for a docMap.  Supports plugins.
  *
  * @body
  *
- * Blah blah
+ * TBD
  */
 
 module.exports = function(bitDocs){

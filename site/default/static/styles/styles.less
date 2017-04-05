@@ -1,4 +1,25 @@
 @import "locate://bit-docs-site/styles/variables.less";
-body{
-    font-family: @defaultFontFamily;
+
+@sidebar-width: 250px;
+
+body {
+	font-family: @defaultFontFamily;
+	margin-left: (@sidebar-width + 25);
+}
+.sidebar {
+	float: left;
+	margin: 0;
+	margin-top: -19px;
+	max-width: @sidebar-width;
+	overflow: auto;
+	position: fixed;
+	left: 0;
+
+	ul {
+		white-space: nowrap;
+	}
+
+	.current>a {
+		font-weight: bold;
+	}
 }
