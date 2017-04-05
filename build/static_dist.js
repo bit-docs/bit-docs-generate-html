@@ -90,7 +90,7 @@ module.exports = function(options){
 			}
 
 			return addPackages(options, buildFolder).then(function(){
-				if(options.forceBuild || options.cacheBust) {
+				if(options.forceBuild) {
 					return deletePackages(options, buildFolder, distFolder, hash);
 				}
 			}).then(function(){
