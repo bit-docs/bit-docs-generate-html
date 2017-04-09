@@ -112,12 +112,28 @@ function addPackages(siteConfig, buildFolder) {
 
 		return readFile(path.join(fullBuildFolderPath, "package.json")).then(function(packageContents){
 			var json = JSON.parse(packageContents);
+			var filePathedDeps = siteConfig.html.dependencies;
 
-			json.dependencies = _.assign(json.dependencies || {},siteConfig.html.dependencies);
+			for(var depName in siteConfig.html.dependencies) {
+				var possibleFilePath = siteConfig.dependencies[depName];
+
+				if (_.startsWith(possibleFilePath,'file:')) {
+					try {
+						var absDir = path.resolve(possibleFilePath.substr(5));
+						if(fs.statSync(absDir).isDirectory()) {
+							filePathedDeps[depName] = absDir;
+						}
+					} catch(err) {
+						// skip bad path
+					}
+				}
+			}
+
+			json.dependencies = _.assign(json.dependencies || {},filePathedDeps);
 
 			return writeFile( path.join(fullBuildFolderPath, "package.json"), JSON.stringify(json) ).then(function(){
 
-				var deps = _.map(siteConfig.html.dependencies, function(version, packageName){
+				var deps = _.map(filePathedDeps, function(version, packageName){
 					return '"'+packageName+'": callIfFunction( require("'+packageName+'") )';
 				});
 
