@@ -118,14 +118,7 @@ function addPackages(siteConfig, buildFolder) {
 				var possibleFilePath = siteConfig.dependencies[depName];
 
 				if (_.startsWith(possibleFilePath,'file:')) {
-					try {
-						var absDir = path.resolve(possibleFilePath.substr(5));
-						if(fs.statSync(absDir).isDirectory()) {
-							filePathedDeps[depName] = absDir;
-						}
-					} catch(err) {
-						// skip bad path
-					}
+					filePathedDeps[depName] = possibleFilePath;
 				}
 			}
 
