@@ -117,7 +117,7 @@ function addPackages(siteConfig, buildFolder) {
 			for(var depName in siteConfig.html.dependencies) {
 				var possibleFilePath = siteConfig.dependencies[depName];
 
-				if (_.startsWith(possibleFilePath,'file:')) {
+				if (possibleFilePath.startsWith('file:')) {
 					filePathedDeps[depName] = possibleFilePath;
 				}
 			}
