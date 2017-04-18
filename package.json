@@ -1,6 +1,6 @@
 {
   "name": "bit-docs-generate-html",
-  "version": "0.4.3",
+  "version": "0.5.0-pre.0",
   "description": "Generates an HTML site with mustache templates",
   "main": "index.js",
   "scripts": {
@@ -32,7 +32,6 @@
     "handlebars": "1.X",
     "lodash": "~4.13.1",
     "md5": "2.1.0",
-    "steal-tools": "0.16.X",
     "striptags": "^2.1.1",
     "unescape-html": "^1.0.0"
   },
