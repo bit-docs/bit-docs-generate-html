@@ -226,7 +226,7 @@ module.exports = function(docMap, config, getCurrent, Handlebars){
 			return "<!--####################################################################\n" +
 						 "\tTHIS IS A GENERATED FILE -- ANY CHANGES MADE WILL BE OVERWRITTEN\n\n" +
 						 '\tINSTEAD CHANGE:\n' +
-						 "\tsource: " + current.src +
+						 "\tsource: " + (current.src ? current.src.path : 'unknown') +
 						 (current.type ? '\n\t@' + current.type + " " + current.name : '') +
 						 "\n######################################################################## -->";
 		},
