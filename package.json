@@ -33,6 +33,7 @@
     "lodash": "~4.13.1",
     "md5": "2.1.0",
     "striptags": "^2.1.1",
+    "steal-tools": "1.X",
     "unescape-html": "^1.0.0"
   },
   "devDependencies": {

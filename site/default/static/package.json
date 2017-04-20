@@ -15,7 +15,6 @@
   "license": "MIT",
   "dependencies": {
       "steal": "1.X",
-      "steal-tools": "1.X",
       "steal-less": "1.X"
   }
 }
