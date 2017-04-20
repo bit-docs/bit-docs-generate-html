@@ -32,8 +32,9 @@
     "handlebars": "1.X",
     "lodash": "~4.13.1",
     "md5": "2.1.0",
-    "striptags": "^2.1.1",
+    "q": "^1.5.0",
     "steal-tools": "1.X",
+    "striptags": "^2.1.1",
     "unescape-html": "^1.0.0"
   },
   "devDependencies": {
