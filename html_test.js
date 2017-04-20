@@ -179,7 +179,7 @@ describe("documentjs/lib/generators/html",function(){
 						}
 
 
-						assert.ok( (""+data).indexOf('src="../static/node_modules/steal/steal.production.js"') !== -1, "got the right path to scripts" );
+						assert.ok( (""+data).indexOf('src="../static/steal.production.js"') !== -1, "got the right path to scripts" );
 						assert.ok( (""+data).indexOf('href="../static/bundles/bit-docs-site/static.css"') !== -1, "got the right path to styles" );
 						assert.ok( (""+data).indexOf('<a href="../index.html" title="index">index</a>') !== -1, "got the right thing to index" );
 
