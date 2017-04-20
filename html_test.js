@@ -22,7 +22,7 @@ describe("documentjs/lib/generators/html",function(){
 
 	it("can push out dev mode static", function(done){
 
-		this.timeout(120000);
+		this.timeout(240000);
 		rmdir(path.join(__dirname,"test","tmp"), function(e){
 			if(e) {
 				return done(e);
@@ -57,7 +57,7 @@ describe("documentjs/lib/generators/html",function(){
 	});
 
 	it("body is rendered as a mustache template prior to markdown with templateRender", function(done){
-		this.timeout(120000);
+		this.timeout(240000);
 		rmdir(path.join(__dirname,"test","tmp"), function(e){
 			if(e) {
 				return done(e);
@@ -164,7 +164,7 @@ describe("documentjs/lib/generators/html",function(){
 	});
 
 	it("slashes get put in a folder and can link correctly", function(done){
-		this.timeout(120000);
+		this.timeout(240000);
 		rmdir(path.join(__dirname,"test","tmp"), function(e){
 			if(e) {
 				return done(e);
@@ -210,7 +210,7 @@ describe("documentjs/lib/generators/html",function(){
 	});
 
 	it("dest on docObject works", function(done){
-		this.timeout(120000);
+		this.timeout(240000);
 		rmdir(path.join(__dirname,"test","tmp"), function(e){
 			if(e) {
 				return done(e);
@@ -255,7 +255,7 @@ describe("documentjs/lib/generators/html",function(){
 	});
 
 	it("basic sidebar works", function(done){
-		this.timeout(120000);
+		this.timeout(240000);
 		rmdir(path.join(__dirname,"test","tmp"), function(e){
 			if(e) {
 				return done(e);
