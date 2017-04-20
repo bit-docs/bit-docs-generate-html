@@ -12,7 +12,11 @@ var html = require("./html"),
 describe("documentjs/lib/generators/html",function(){
 	beforeEach(function(done){
 		rmdir(path.join(__dirname,"site","static"), function(e){
-			rmdir(path.join(__dirname,"site","templates"), done)
+			if (e) {
+				done(e);
+			} else {
+				rmdir(path.join(__dirname,"site","templates"), done)
+			}
 		});
 	});
 
