@@ -51,13 +51,17 @@ module.exports = function(docMapPromise, siteConfig){
 	var searchMapPromise = docMapPromise.then(function(docMap){
 		return write.searchMap(docMap, siteConfig);
 	});
+	var docMapHash = docMapPromise.then(function(docMap){
+		return write.docMapHash(docMap, siteConfig);
+	});
 
 	var docsPromise = Q.all([
 			docMapPromise,
 			build.renderer(buildTemplatesPromise, siteConfig),
 			helpersReadyPromise,
 			mkdirs(siteConfig.dest),
-			searchMapPromise
+			searchMapPromise,
+			docMapHash
 	]).then(function(results){
 		var docMap = results[0],
 			renderer = results[1];
