@@ -9,7 +9,8 @@ var fs = require('fs'),
  * @function bitDocs.generators.html.write.docMapHash
  * @parent bitDocs.generators.html.write.methods
  *
- * Writes out file containing an md5 hash of the docmap
+ * Writes out file containing an md5 hash of a docMap-like object
+ *  (docMap or subset of a docMap)
  *
  * @signature `.write.docMapHash(docMap, siteConfig)`
  *
@@ -22,9 +23,11 @@ module.exports = function(docMap, siteConfig) {
 				hash: md5(JSON.stringify(docMap))
 			},
 			dest = path.join(siteConfig.dest, 'docMapHash.json');
-
+			
 	return mkdirs(siteConfig.dest).then(function(){
-		return writeFile(dest, JSON.stringify(docMapHashConfig));
+		return writeFile(dest, JSON.stringify(docMapHashConfig)).then(function(){
+			return docMapHashConfig;
+		});
 	});
 
 };
