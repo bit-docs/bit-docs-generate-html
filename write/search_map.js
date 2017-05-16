@@ -38,7 +38,9 @@ module.exports = function(docMap, siteConfig) {
 	var dest = path.join(siteConfig.dest, 'searchMap.json');
 
 	return mkdirs(siteConfig.dest).then(function(){
-		return writeFile(dest, JSON.stringify(searchMap));
+		return writeFile(dest, JSON.stringify(searchMap)).then(function(){
+			return searchMap;
+		});
 	});
 
 };
