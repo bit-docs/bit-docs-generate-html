@@ -3,7 +3,8 @@ var fs = require('fs'),
 	filename = require("./filename"),
 	Q = require('q'),
 	writeFile = Q.denodeify(fs.writeFile),
-	mkdirs = Q.denodeify(require("fs-extra").mkdirs);
+	mkdirs = Q.denodeify(require("fs-extra").mkdirs),
+	sanitizeHtml = require('sanitize-html');
 
 /**
  * @function bitDocs.generators.html.write.searchMap
@@ -27,7 +28,7 @@ module.exports = function(docMap, siteConfig) {
 			var searchObj = {
 				name: docObj.name,
 				title: docObj.title,
-				description: docObj.description,
+				description: sanitizeHtml(docObj.description, { allowedTags: []}),
 				url: filename(docObj, siteConfig)
 			};
 			searchMap[name] = searchObj;
