@@ -32,7 +32,6 @@
     "handlebars": "1.X",
     "lodash": "~4.13.1",
     "md5": "2.1.0",
-    "sanitize-html": "^1.14.1",
     "steal-tools": "0.16.X",
     "striptags": "^2.1.1",
     "unescape-html": "^1.0.0"
