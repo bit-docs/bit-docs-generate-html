@@ -66,7 +66,7 @@ describe("documentjs/lib/generators/html/build/make_default_helpers",function(){
 		done();
 	});
 
-	it("makeLinks handles [document-name#linkId Link Text] format",function(done){
+	it("makeLinks handles [document-name#linkId Link Text] format (#27)",function(done){
 		var md = "[can-core#someId Link Text]",
 				expected = '<a href="can-core.html#someId" title="Simply the Best">Link Text</a>',
 				actual = defaultHelpers.makeLinks(md);
