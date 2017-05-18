@@ -267,18 +267,24 @@ module.exports = function(docMap, config, getCurrent, Handlebars){
 			var replacer = function (match, content) {
 				var parts = content.match(linkRegExp),
 					name,
+					hashParts,
 					description,
 					linkText,
 					docObject;
 
 				name = parts ? parts[1].replace('::', '.prototype.') : content;
+				hashParts = name.split("#");
+
+				if(hashParts.length > 1){
+					name = hashParts[0];
+				}
 
 				docObject = docMap[name]
 				if (docObject) {
 					linkText = parts && parts[2] ? parts[2] : docObject.title || name;
 					description = docObject.description || name;
 
-					return '<a href="' + urlTo(name) + '" title="' + stripMarkdown(description) + '">' + linkText + '</a>';
+					return '<a href="' + urlTo(name) + (hashParts.length > 1 ? ("#" + hashParts.slice(1).join("#")) : "") + '" title="' + stripMarkdown(description) + '">' + linkText + '</a>';
 				}
 
 				if (httpRegExp.test(name)) {
