@@ -1,4 +1,4 @@
-
+require("./make_default_helpers_test");
 
 var getRenderer = require('./get_renderer'),
 	getPartials = require('./get_partials'),

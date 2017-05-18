@@ -267,23 +267,34 @@ module.exports = function(docMap, config, getCurrent, Handlebars){
 			var replacer = function (match, content) {
 				var parts = content.match(linkRegExp),
 					name,
+					hashParts,
 					description,
 					linkText,
-					docObject;
+					docObject,
+					href;
 
 				name = parts ? parts[1].replace('::', '.prototype.') : content;
 
+				//the name can be something like 'some-name#someId'
+				//this allows linking to a specific section with the hash syntax (#27)
+				hashParts = name.split("#");
+				name = hashParts.shift();
+				
 				docObject = docMap[name]
 				if (docObject) {
 					linkText = parts && parts[2] ? parts[2] : docObject.title || name;
 					description = docObject.description || name;
 
-					return '<a href="' + urlTo(name) + '" title="' + stripMarkdown(description) + '">' + linkText + '</a>';
+					//if there is anything in the hashParts, append it to the end of the url
+					href = urlTo(name) + (hashParts.length >= 1 ? ("#" + hashParts.join("#")) : "");
+
+					return '<a href="' + href + '" title="' + stripMarkdown(description) + '">' + linkText + '</a>';
 				}
 
 				if (httpRegExp.test(name)) {
 					linkText = parts && parts[2] ? parts[2] : name;
-					return '<a href="' + name + '" title="' + escape(linkText) + '">' + linkText + '</a>';
+					href = name;
+					return '<a href="' + href + '" title="' + escape(linkText) + '">' + linkText + '</a>';
 				}
 
 				return match;
