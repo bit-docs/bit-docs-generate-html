@@ -19,6 +19,10 @@ module.exports = function(dir, OtherHandlebars){
 		var render = (OtherHandlebars || Handlebars).compile(result[1].toString());
 
 		var renderer = function(data){
+			// Make sure we have a body before render the page
+			if(!data.body){
+				return;
+			}
 			var content = render(data);
 			// pass that content to the layout
 			return layout(_.extend({
