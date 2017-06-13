@@ -1,15 +1,26 @@
 /**
-* @stylesheet variables.less Variables
-* @parent bit-docs/theme
+* @page bit-docs-generate-html/styles/variables Variables
+* @parent bit-docs-generate-html/styles
 *
 * @description Variables to hold site-wide visual configurations.
 */
 
-// Font appearance
-
+/**
+ * @option @defaultFontFamily The default font family.
+ */
 @defaultFontFamily: "Helvetica Neue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
 
-// Breakpoints for use with @media
-
+/**
+ * @option @smartphones Media query breakpoint for smartphones.
+ */
 @smartphones: ~"only screen and (max-width: 767px)";
+
+/**
+ * @option @desktops Media query breakpoint for desktops.
+ */
 @desktops: ~"only screen and (min-width: 767px)";
+
+/**
+ * @option @defaultPadding Defualt padding for content containers.
+ */
+@defaultPadding: 25px;
