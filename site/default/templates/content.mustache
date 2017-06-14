@@ -14,15 +14,6 @@
 		{{/unless}}
 
 		{{#unless hideBody}}
-			{{#if signatures}}
-				{{#each signatures}}
-					{{> signature.mustache}}
-				{{/each}}
-			{{else}}
-				{{#types}}
-					{{> signature.mustache}}
-				{{/types}}
-			{{/if}}
 			{{#if body}}
 				{{> body.mustache}}
 			{{/if}}
