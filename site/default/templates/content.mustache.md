@@ -18,7 +18,7 @@ Copy this file into your own project or theme to modify HTML markup, or include
 other available templates.
 
 For instance, [bit-docs-js] provides the `signature.mustache` template that can
-be included to show a function signature in the generated output:
+be included to show function signatures in the generated output:
 
 ```
 {{#unless hideBody}}
