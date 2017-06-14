@@ -9,11 +9,10 @@ var mergeOnto = function(prop, dest, source){
 };
 
 /**
- * @module {function} bit-docs-generate-html
- * @group bit-docs-generate-html/modules modules
- * @group bit-docs-generate-html/styles styles
- * @group bit-docs-generate-html/templates templates
  * @parent plugins
+ * @module {function} bit-docs-generate-html
+ * @group bit-docs-generate-html/theme theme
+ * @group bit-docs-generate-html/modules modules
  *
  * @description Generates HTML for a docMap.  Supports plugins.
  *

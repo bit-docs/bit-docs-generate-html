@@ -1,8 +1,29 @@
 /**
- * @stylesheet styles.less Styles
- * @parent bit-docs/theme
+ * @parent bit-docs-generate-html/theme
+ * @page bit-docs-generate-html/theme/styles styles
  *
- * @description Styles for the generated site.
+ * @description The primary styles for the default theme.
+ *
+ * @body
+ *
+ * Styles are used to modify the visual representation of a generated website.
+ * 
+ * By default, `bit-docs` provides a very basic theme that consists of styles
+ * that are meant to be copied over to your project and/or a custom theme,
+ * and modified there as needed to suit your specific design needs.
+ * 
+ * The default `styles.less` is based on flexbox, and relies on two less files:
+ *
+ * - [bit-docs-generate-html/theme/styles/variables]
+ * - [bit-docs-generate-html/theme/styles/mixins]
+ *
+ * Any of these files can be copied over and modified as needed. For any less
+ * files not copied over, the default less file will be used.
+ * 
+ * Certain plugins provide their own less files for defining variables that
+ * are to be used in styling whatever they add, and will include your
+ * variables.less after their own so that you may override any less variables
+ * that you might wish to. A good example of this is [bit-docs-prettify].
  */
 
 @import "locate://bit-docs-site/styles/variables.less";

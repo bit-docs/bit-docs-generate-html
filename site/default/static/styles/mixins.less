@@ -1,7 +1,7 @@
 /**
- * @parent bit-docs-generate-html/styles
- * @page bit-docs-generate-html/styles/mixins mixins
- * @group bit-docs-generate-html/styles/mixins/helper #helper
+ * @parent bit-docs-generate-html/theme/styles
+ * @page bit-docs-generate-html/theme/styles/mixins mixins
+ * @group bit-docs-generate-html/theme/styles/mixins/helper #helper
  *
  * @description Mixins for site-wide visual layout.
  *
@@ -12,8 +12,8 @@
 
 #helper {
   /**
-   * @function bit-docs-generate-html/styles/mixins/helper/padding .padding
-   * @parent bit-docs-generate-html/styles/mixins/helper
+   * @function bit-docs-generate-html/theme/styles/mixins/helper/padding .padding
+   * @parent bit-docs-generate-html/theme/styles/mixins/helper
    *
    * Sets padding for passed sides.
    *
@@ -22,7 +22,7 @@
    * @param {String} @sides A space-separated list of "sides", like `left right`.
    *
    * @param {Number} @amount An amount of padding in pixels, defaults to
-   * [bit-docs-generate-html/styles/variables/@defaultPadding @defaultPadding].
+   * [bit-docs-generate-html/theme/styles/variables/@defaultPadding @defaultPadding].
    * 
    * @body
    *
@@ -39,8 +39,8 @@
   }
 
   /**
-   * @function bit-docs-generate-html/styles/mixins/helper/flex .flex
-   * @parent bit-docs-generate-html/styles/mixins/helper
+   * @function bit-docs-generate-html/theme/styles/mixins/helper/flex .flex
+   * @parent bit-docs-generate-html/theme/styles/mixins/helper
    *
    * Sets flexbox "grow" and "shrink" in most compatible way.
    *
@@ -69,8 +69,8 @@
   }
 
   /**
-   * @function bit-docs-generate-html/styles/mixins/helper/property-names .property-names
-   * @parent bit-docs-generate-html/styles/mixins/helper
+   * @function bit-docs-generate-html/theme/styles/mixins/helper/property-names .property-names
+   * @parent bit-docs-generate-html/theme/styles/mixins/helper
    * @hide
    *
    * Helper for setting multiple dash properties to same value.
@@ -109,8 +109,8 @@
 // Flexbox (flexbugs: https://github.com/philipwalton/flexbugs)
 
 /**
- * @property .display-flex
- * @parent bit-docs-generate-html/styles/mixins
+ * @property bit-docs-generate-html/theme/styles/mixins/display-flex @display-flex
+ * @parent bit-docs-generate-html/theme/styles/mixins
  *
  * Sets the display to flex using vendor prefixes.
  *
@@ -133,8 +133,8 @@
 }
 
 /**
- * @property .flex-row
- * @parent bit-docs-generate-html/styles/mixins
+ * @property bit-docs-generate-html/theme/styles/mixins/flex-row @flex-row
+ * @parent bit-docs-generate-html/theme/styles/mixins
  *
  * Sets the display to flex and direction to row using vendor prefixes.
  *
@@ -160,8 +160,8 @@
 }
 
 /**
- * @property .flex-column
- * @parent bit-docs-generate-html/styles/mixins
+ * @property bit-docs-generate-html/theme/styles/mixins/flex-column @flex-column
+ * @parent bit-docs-generate-html/theme/styles/mixins
  *
  * Sets the display to flex and direction to column using vendor prefixes.
  *
@@ -187,8 +187,8 @@
 }
 
 /**
- * @property .flex-initial
- * @parent bit-docs-generate-html/styles/mixins
+ * @property bit-docs-generate-html/theme/styles/mixins/flex-initial @flex-initial
+ * @parent bit-docs-generate-html/theme/styles/mixins
  *
  * Emulates `flex: initial;` in a compatible way using vendor prefixes.
  *
@@ -207,8 +207,8 @@
 }
 
 /**
- * @property .flex-auto
- * @parent bit-docs-generate-html/styles/mixins
+ * @property bit-docs-generate-html/theme/styles/mixins/flex-auto @flex-auto
+ * @parent bit-docs-generate-html/theme/styles/mixins
  *
  * Emulates `flex: auto;` in a compatible way using vendor prefixes.
  *
@@ -227,8 +227,8 @@
 }
 
 /**
- * @property .flex-none
- * @parent bit-docs-generate-html/styles/mixins
+ * @property bit-docs-generate-html/theme/styles/mixins/flex-none @flex-none
+ * @parent bit-docs-generate-html/theme/styles/mixins
  *
  * Emulates `flex: none;` in a compatible way using vendor prefixes.
  *
