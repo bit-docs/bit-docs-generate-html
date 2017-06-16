@@ -386,11 +386,10 @@ module.exports = function(docMap, config, getCurrent, Handlebars){
 			}
 		},
 		/**
-		* @function documentjs.generators.html.defaultHelpers.makeParentTitle
-		*
-		* Returns the parent docObject's title.
-		*
-		*/
+		 * @function bit-docs-generate-html/theme/templates/helpers/getTitle
+		 *
+		 * Returns the parent docObject's title.
+		 */
 		getTitle: function(){
 			var root = docMap[config.parent];
 			return (root.title || root.name)+ " - "+(this.title || this.name);

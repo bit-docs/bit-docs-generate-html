@@ -12,8 +12,8 @@ var queue = promiseLock(),
 	remove = Q.denodeify(fs.remove);
 
 /**
- * @module {function} bit-docs-generate-html/build/static_dist
  * @parent bit-docs-generate-html/modules
+ * @module {function} bit-docs-generate-html/build/static_dist
  *
  * Builds a static distributable which will eventually be copied
  * to the `static` folder of the generated output.

@@ -9,8 +9,8 @@ var buildTemplates = require("./templates"),
 
 
 /**
- * @module {function} bit-docs-generate-html/build/renderer
  * @parent bit-docs-generate-html/modules
+ * @module {function} bit-docs-generate-html/build/renderer
  *
  * Creates a renderer function used to generate
  * the documentation.

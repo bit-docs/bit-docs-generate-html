@@ -1,19 +1,19 @@
-
-var getDefaultHelpers = require("./make_default_helpers"),
-	_ = require("lodash");
+var getDefaultHelpers = require("./make_default_helpers");
+var _ = require("lodash");
 var fsx = require('../fs_extras');
 var path = require('path');
 var md5 = require("md5");
-var Handlebars = require("handlebars"),
-	buildHash = require("./build_hash");
+var Handlebars = require("handlebars");
+var buildHash = require("./build_hash");
+
 /**
- * @function documentjs.generators.html.build.helpers
- * @parent documentjs.generators.html.build.methods
+ * @parent bit-docs-generate-html/modules
+ * @module {Promise} bit-docs-generate-html/build/helpers
  *
- * Gets the default helpers and helpers in the _documentjs/site/templates_ folder and
- * registers them with Handlebars.
- *
- * @signature `.build.helpers(buildTemplatesPromise, docMap, options, getCurrent)`
+ * Gets the default helpers, and helpers in the _{buildHash}/site/templates_
+ * folder, and registers them with Handlebars.
+ * 
+ * @signature `build.helpers(buildTemplatesPromise, docMap, options, getCurrent)`
  *
  * Registers helpers
  *
@@ -42,7 +42,7 @@ var Handlebars = require("handlebars"),
 module.exports = function(buildTemplatesPromise, docMap, options, getCurrent){
 
 	return buildTemplatesPromise.then(function(OtherHandlebars){
-		// get the default heleprs
+		// get the default helpers
 		var helpers = getDefaultHelpers(docMap,options,getCurrent, OtherHandlebars);
 
 		var templatesPath = path.join('site/templates', buildHash(options) );
@@ -72,9 +72,5 @@ module.exports = function(buildTemplatesPromise, docMap, options, getCurrent){
 		});
 
 	});
-
-
-
-
 
 };
