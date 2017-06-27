@@ -1,12 +1,10 @@
-var buildTemplates = require("./templates"),
-	getRenderer = require("./get_renderer"),
-	getPartials = require("./get_partials"),
-	path = require("path"),
-	md5 = require("md5"),
-	Q = require("q"),
-	buildHash = require("./build_hash");
-
-
+var buildTemplates = require("./templates");
+var getRenderer = require("./get_renderer");
+var getPartials = require("./get_partials");
+var path = require("path");
+var md5 = require("md5");
+var Q = require("q");
+var buildHash = require("./build_hash");
 
 /**
  * @parent bit-docs-generate-html/modules

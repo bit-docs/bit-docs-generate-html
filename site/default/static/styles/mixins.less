@@ -1,28 +1,28 @@
 /**
- * @parent bit-docs-generate-html/theme/styles
- * @page bit-docs-generate-html/theme/styles/mixins mixins
- * @group bit-docs-generate-html/theme/styles/mixins/helper #helper
+ * @parent bit-docs-generate-html/theme
+ * @module bit-docs-generate-html/site/default/static/styles/mixins.less mixins.less
  *
  * @description Mixins for site-wide visual layout.
  *
  * @body
  *
  * Mixins are useful as reusable rules that can be added into any declaration.
+ *
+ * Read more about mixins [here](http://lesscss.org/features/#mixins-feature).
  */
 
 #helper {
   /**
-   * @function bit-docs-generate-html/theme/styles/mixins/helper/padding .padding
-   * @parent bit-docs-generate-html/theme/styles/mixins/helper
+   * @property {ParametricMixin} helper-padding #helper.padding
    *
    * Sets padding for passed sides.
    *
-   * @signature `#helper.padding(@sides; @amount: @defaultPadding)`
+   * @signature `#helper.padding(@sides; @amount: @defaultPadding);`
    *
    * @param {String} @sides A space-separated list of "sides", like `left right`.
    *
    * @param {Number} @amount An amount of padding in pixels, defaults to
-   * [bit-docs-generate-html/theme/styles/variables/@defaultPadding @defaultPadding].
+   * [bit-docs-generate-html/site/default/static/styles/variables.less.defaultPadding].
    * 
    * @body
    *
@@ -39,12 +39,11 @@
   }
 
   /**
-   * @function bit-docs-generate-html/theme/styles/mixins/helper/flex .flex
-   * @parent bit-docs-generate-html/theme/styles/mixins/helper
+   * @property {ParametricMixin} helper-flex #helper.flex
    *
    * Sets flexbox "grow" and "shrink" in most compatible way.
    *
-   * @signature `#helper.flex(@grow: 0, @shrink: 1)`
+   * @signature `#helper.flex(@grow: 0, @shrink: 1);`
    *
    * @param {Number} @grow The amount this flex item should grow, defaults to 0.
    *
@@ -60,7 +59,7 @@
    * }
    * ```
    */
-  .flex(@grow: 0, @shrink: 1) {
+  .flex(@grow: 0; @shrink: 1) {
     -webkit-box-flex: @grow;
     -webkit-flex: @grow @shrink auto;
     -moz-box-flex: @grow;
@@ -69,19 +68,18 @@
   }
 
   /**
-   * @function bit-docs-generate-html/theme/styles/mixins/helper/property-names .property-names
-   * @parent bit-docs-generate-html/theme/styles/mixins/helper
+   * @property {ParametricMixin} helper-property-names #helper.property-names
    * @hide
    *
    * Helper for setting multiple dash properties to same value.
    *
-   * @signature `#helper.property-names(@p; @s; @v)`
+   * @signature `#helper.property-names(@p; @s; @v: 0);`
    *
    * @param {String} @p The property name to prepend before the dash and string.
    *
    * @param {String} @s A space-separated list of strings to iterate over.
    *
-   * @param {Number} @v The value to set each concatenated property to.
+   * @param {Number} @v The value to set each concatenated property to, defaults to 0.
    * 
    * @body
    *
@@ -97,7 +95,7 @@
    * }
    * ```
    */
-  .property-names(@p; @s; @v) {
+  .property-names(@p; @s; @v: 0) {
     .-(@i: length(@s)) when (@i > 0) {
       @n: extract(@s, @i);
       & {@{p}-@{n}: @v}
@@ -109,8 +107,7 @@
 // Flexbox (flexbugs: https://github.com/philipwalton/flexbugs)
 
 /**
- * @property bit-docs-generate-html/theme/styles/mixins/display-flex .display-flex
- * @parent bit-docs-generate-html/theme/styles/mixins
+ * @property {Mixin} display-flex .display-flex
  *
  * Sets the display to flex using vendor prefixes.
  *
@@ -133,8 +130,7 @@
 }
 
 /**
- * @property bit-docs-generate-html/theme/styles/mixins/flex-row .flex-row
- * @parent bit-docs-generate-html/theme/styles/mixins
+ * @property {Mixin} flex-row .flex-row
  *
  * Sets the display to flex and direction to row using vendor prefixes.
  *
@@ -160,8 +156,7 @@
 }
 
 /**
- * @property bit-docs-generate-html/theme/styles/mixins/flex-column .flex-column
- * @parent bit-docs-generate-html/theme/styles/mixins
+ * @property {Mixin} flex-column .flex-column
  *
  * Sets the display to flex and direction to column using vendor prefixes.
  *
@@ -187,8 +182,7 @@
 }
 
 /**
- * @property bit-docs-generate-html/theme/styles/mixins/flex-initial .flex-initial
- * @parent bit-docs-generate-html/theme/styles/mixins
+ * @property {Mixin} flex-initial .flex-initial
  *
  * Emulates `flex: initial;` in a compatible way using vendor prefixes.
  *
@@ -207,8 +201,7 @@
 }
 
 /**
- * @property bit-docs-generate-html/theme/styles/mixins/flex-auto .flex-auto
- * @parent bit-docs-generate-html/theme/styles/mixins
+ * @property {Mixin} flex-auto .flex-auto
  *
  * Emulates `flex: auto;` in a compatible way using vendor prefixes.
  *
@@ -227,8 +220,7 @@
 }
 
 /**
- * @property bit-docs-generate-html/theme/styles/mixins/flex-none .flex-none
- * @parent bit-docs-generate-html/theme/styles/mixins
+ * @property {Mixin} flex-none .flex-none
  *
  * Emulates `flex: none;` in a compatible way using vendor prefixes.
  *

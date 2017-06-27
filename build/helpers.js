@@ -19,9 +19,9 @@ var buildHash = require("./build_hash");
  *
  *
  * @param {Promise<Handlebars>} buildTemplatesPromise The result of calling
- * [documentjs.generators.html.build.templates]. Building the helpers
- * must happen after the templates have been copied over. Passing this
- * argument enforces that.
+ * [bit-docs-generate-html/build/templates]. Building the helpers must happen
+ * after the templates have been copied over. Passing this argument enforces
+ * that.
  *
  * @param {documentjs.process.docMap} docMap The docMap which contains all
  * docObjects that will be documented.

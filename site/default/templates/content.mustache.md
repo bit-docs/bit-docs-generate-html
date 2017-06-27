@@ -1,24 +1,24 @@
-@parent bit-docs-generate-html/theme/templates
-@page bit-docs-generate-html/theme/templates/content content
+@parent bit-docs-generate-html/theme
+@module bit-docs-generate-html/site/default/templates/content.mustache content.mustache
 
 @description The default content template.
 
 @body
 
-The `content.mustache` template includes other mustache files, by default:
+### Usage
+
+The default `content.mustache` template contains the main HTML markup and
+includes these other mustache files:
 
 - `sidebar.mustache`
 - `title.mustache`
 - `description.mustache`
 - `body.mustache`
 
-Additionally, the template includes the main HTML markup.
-
-Copy this file into your own project or theme to modify HTML markup, or include
-other available templates.
-
-For instance, [bit-docs-js] provides the `signature.mustache` template that can
-be included to show function signatures in the generated output:
+Copy this file into your own project or theme to modify HTML markup, or
+include other available templates. For instance, [bit-docs-js] provides the
+`signature.mustache` template that can be included to show function
+signatures in the generated output:
 
 ```
 {{#unless hideBody}}
