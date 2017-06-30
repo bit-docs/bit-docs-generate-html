@@ -8,7 +8,7 @@ var buildHash = require("./build_hash");
 
 /**
  * @parent bit-docs-generate-html/modules
- * @module {Promise} bit-docs-generate-html/build/helpers
+ * @module {Promise} bit-docs-generate-html/build/helpers helpers
  *
  * Gets the default helpers, and helpers in the _{buildHash}/site/templates_
  * folder, and registers them with Handlebars.
@@ -16,7 +16,6 @@ var buildHash = require("./build_hash");
  * @signature `build.helpers(buildTemplatesPromise, docMap, options, getCurrent)`
  *
  * Registers helpers
- *
  *
  * @param {Promise<Handlebars>} buildTemplatesPromise The result of calling
  * [bit-docs-generate-html/build/templates]. Building the helpers must happen

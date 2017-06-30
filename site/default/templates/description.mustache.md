@@ -1,5 +1,5 @@
-@parent bit-docs-generate-html/theme
-@module bit-docs-generate-html/site/default/templates/description.mustache description.mustache
+@parent bit-docs-generate-html/templates
+@page bit-docs-generate-html/site/default/templates/description.mustache description.mustache
 
 @description The default description template.
 

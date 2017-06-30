@@ -8,7 +8,7 @@ var buildHash = require("./build_hash");
 
 /**
  * @parent bit-docs-generate-html/modules
- * @module {function} bit-docs-generate-html/build/renderer
+ * @module {function} bit-docs-generate-html/build/renderer renderer
  *
  * Creates a renderer function used to generate
  * the documentation.

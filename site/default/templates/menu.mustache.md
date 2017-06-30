@@ -1,5 +1,5 @@
-@parent bit-docs-generate-html/theme
-@module bit-docs-generate-html/site/default/templates/menu.mustache menu.mustache
+@parent bit-docs-generate-html/templates
+@page bit-docs-generate-html/site/default/templates/menu.mustache menu.mustache
 
 @description The default menu template.
 

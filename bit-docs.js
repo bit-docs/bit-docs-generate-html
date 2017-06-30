@@ -11,8 +11,10 @@ var mergeOnto = function(prop, dest, source){
 /**
  * @parent plugins
  * @module {function} bit-docs-generate-html
- * @group bit-docs-generate-html/theme theme
  * @group bit-docs-generate-html/modules modules
+ * @group bit-docs-generate-html/static static
+ * @group bit-docs-generate-html/templates templates
+ * @group bit-docs-generate-html/types types
  *
  * @description Generates HTML for a docMap.  Supports plugins.
  *
@@ -20,11 +22,10 @@ var mergeOnto = function(prop, dest, source){
  *
  * TBD
  */
-
 module.exports = function(bitDocs){
     bitDocs.register("generator", generator);
 
-	bitDocs.register("tags", tags);
+    bitDocs.register("tags", tags);
 
     bitDocs.handle("html", function(siteConfig, htmlConfig) {
         if(!siteConfig.html) {
@@ -39,5 +40,5 @@ module.exports = function(bitDocs){
 
         mergeOnto("static", html, htmlConfig);
         mergeOnto("templates", html, htmlConfig);
-	});
+    });
 };

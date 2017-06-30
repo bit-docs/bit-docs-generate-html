@@ -1,5 +1,5 @@
-@parent bit-docs-generate-html/theme
-@page bit-docs-generate-html/theme/about About the Default Theme
+@parent bit-docs-generate-html
+@page bit-docs-generate-html/about About
 
 @description Templates and styles come with the default theme.
 
@@ -29,7 +29,7 @@ structure purposes, in tandem with [bit-docs-generate-html/theme/styles].
 
 For any template files not copied over, the default template will be used.
 
-### Styles
+### Static
 
 Styles are used to modify the visual representation of a generated website.
 
