@@ -131,7 +131,7 @@ describe("documentjs/lib/generators/html/build",function(){
 					"can-component": "3.0.0-pre.9"
 				}, 
 				staticDist: [
-					'test-static-dist'
+					path.join(__dirname, '..', 'test-static-dist')
 				]
 			},
 		}).then(function(result){
