@@ -19,7 +19,7 @@ module.exports = function(options, folders){
 	var staticDistPromises = [];
 	if(options.html && options.html.staticDist){
 		options.html.staticDist.forEach(function(dist){
-			staticDistPromises.push(copy(path.join(process.cwd(), dist), folders.dist));
+			staticDistPromises.push(copy(path.join(__dirname, '../../../..', dist), folders.dist));
 		});
 	}
 
