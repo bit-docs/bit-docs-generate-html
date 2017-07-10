@@ -19,17 +19,16 @@ module.exports = function(options, folders){
 	var staticDistPromises = [];
 	if(options.html && options.html.staticDist){
 		options.html.staticDist.forEach(function(dist){
-			staticDistPromises.push(copy(dist, folders.dist));
+			var out = path.join(__dirname, '..', '..', '..', '..', folders.dist);
+			staticDistPromises.push(copy(dist, out));
 		});
 	}
 
 	if(options.devBuild) {
 		// copy all dependencies
-		var promise = Q.all([
-			fsx.copy(path.join(folders.build), path.join(folders.dist))
-		].concat(staticDistPromises));
+		staticDistPromises.push(fsx.copy(path.join(folders.build), path.join(folders.dist)));
 		// copy everything and steal.js
-		return promise;
+		return Q.all(staticDistPromises);
 	} else {
 
 		// run steal-tools and then copy things
@@ -46,11 +45,9 @@ module.exports = function(options, folders){
 				console.log("BUILD: Copying build to dist.");
 			}
 
-			var promise = Q.all([
-				fsx.copy(path.join(folders.build, "dist"), path.join(folders.dist))
-			].concat(staticDistPromises));
+			staticDistPromises.push(fsx.copy(path.join(folders.build, "dist"), path.join(folders.dist)));
 			
-			return promise;
+			return Q.all(staticDistPromises);
 		});
 	}
 };
