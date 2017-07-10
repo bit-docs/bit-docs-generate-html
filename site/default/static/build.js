@@ -20,6 +20,9 @@ module.exports = function(options, folders){
 	if(options.html && options.html.staticDist){
 		options.html.staticDist.forEach(function(dist){
 			var out = path.join(__dirname, '..', '..', '..', '..', folders.dist);
+			if(!path.isAbsolute(dist)){
+				dist = path.join(process.cwd(), dist);
+			}
 			staticDistPromises.push(copy(dist, out));
 		});
 	}
