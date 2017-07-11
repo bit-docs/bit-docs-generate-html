@@ -1,13 +1,14 @@
 require("./make_default_helpers_test");
 
-var getRenderer = require('./get_renderer'),
-	getPartials = require('./get_partials'),
-	build = require("./build"),
-	assert = require('assert'),
-	Q = require('q'),
-	path = require('path'),
-	rmdir = require('rimraf'),
-	fs = require('fs');
+var getRenderer = require('./get_renderer');
+var getPartials = require('./get_partials');
+var build = require("./build");
+var assert = require('assert');
+var Q = require('q');
+var path = require('path');
+var rmdir = require('rimraf');
+var fs = require('fs');
+var read = Q.denodeify(fs.readFile);
 
 describe("documentjs/lib/generators/html/build",function(){
 
@@ -105,21 +106,52 @@ describe("documentjs/lib/generators/html/build",function(){
 
 	});
 
-	it("builds the static dist", function(done){
+	it("builds the static dist", function(){
 		this.timeout(120000);
-		build.staticDist({
+		return build.staticDist({
 			forceBuild: true,
-			html: {dependencies: {"can-component": "3.0.0-pre.9"}}
-		}).then(function(result){
-			fs.readFile(path.join(__dirname, "..", result.distFolder, "bundles","bit-docs-site","static.js"), function(err, res){
-				if(err) {
-					done(err);
-				} else {
-					assert.ok(/can-component/.test(res), "got static.js with component");
-					done();
+			html: {
+				dependencies: {
+					"can-component": "3.0.0-pre.9"
 				}
-			});
-		}, done);
+			}
+		}).then(function(result){
+			return read(path.join(__dirname, "..", result.distFolder, "bundles","bit-docs-site","static.js"));
+		}).then(function(res){
+			assert.ok(/can-component/.test(res), "got static.js with component");
+		});
+	});
+
+	it("copy absolute staticDist folders to static dist", function(){
+		this.timeout(120000);
+		return build.staticDist({
+			forceBuild: true,
+			html: {
+				staticDist: [
+					path.join(__dirname, '..', 'test-static-dist')
+				]
+			},
+		}).then(function(result){
+			return read(path.join(__dirname, "..", result.distFolder, "test.css"));
+		}).then(function(res){
+			assert.ok(/#TestID/.test(res), "got test.css file");
+		});
+	});
+
+	it("copy relative staticDist folders to static dist", function(){
+		this.timeout(120000);
+		return build.staticDist({
+			forceBuild: true,
+			html: {
+				staticDist: [
+					'./test-static-dist'
+				]
+			},
+		}).then(function(result){
+			return read(path.join(__dirname, "..", result.distFolder, "test.css"));
+		}).then(function(res){
+			assert.ok(/#TestID/.test(res), "got test.css file");
+		});
 	});
 
 	it("makes linked content",function(done){
