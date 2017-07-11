@@ -1,9 +1,7 @@
 var stealTools = require("steal-tools");
-var fsExtra = require('fs-extra');
 var fsx = require('../../../../fs_extras');
 var Q = require('q');
 var path = require("path");
-var copy = Q.denodeify(fsExtra.copy);
 
 module.exports = function(options, folders){
 	var copyDir = function(name){
@@ -19,11 +17,10 @@ module.exports = function(options, folders){
 	var staticDistPromises = [];
 	if(options.html && options.html.staticDist){
 		options.html.staticDist.forEach(function(dist){
-			var out = path.join(__dirname, '..', '..', '..', '..', folders.dist);
 			if(!path.isAbsolute(dist)){
 				dist = path.join(process.cwd(), dist);
 			}
-			staticDistPromises.push(copy(dist, out));
+			staticDistPromises.push(fsx.copyFrom(dist, folders.dist));
 		});
 	}
 
