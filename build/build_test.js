@@ -127,9 +127,6 @@ describe("documentjs/lib/generators/html/build",function(){
 		return build.staticDist({
 			forceBuild: true,
 			html: {
-				dependencies: {
-					"can-component": "3.0.0-pre.9"
-				}, 
 				staticDist: [
 					path.join(__dirname, '..', 'test-static-dist')
 				]
@@ -137,7 +134,7 @@ describe("documentjs/lib/generators/html/build",function(){
 		}).then(function(result){
 			return read(path.join(__dirname, "..", result.distFolder, "test.css"));
 		}).then(function(res){
-			assert.ok(/#TestID/.test(res), "got static.js with component");
+			assert.ok(/#TestID/.test(res), "got test.css file");
 		});
 	});
 
@@ -146,9 +143,6 @@ describe("documentjs/lib/generators/html/build",function(){
 		return build.staticDist({
 			forceBuild: true,
 			html: {
-				dependencies: {
-					"can-component": "3.0.0-pre.9"
-				}, 
 				staticDist: [
 					'./test-static-dist'
 				]
@@ -156,7 +150,7 @@ describe("documentjs/lib/generators/html/build",function(){
 		}).then(function(result){
 			return read(path.join(__dirname, "..", result.distFolder, "test.css"));
 		}).then(function(res){
-			assert.ok(/#TestID/.test(res), "got static.js with component");
+			assert.ok(/#TestID/.test(res), "got test.css file");
 		});
 	});
 
