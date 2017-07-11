@@ -4,7 +4,7 @@ var tags = require("./tags/tags");
 
 var mergeOnto = function(prop, dest, source){
     if(!dest[prop]) {
-        dest[prop] = {};
+        dest[prop] = [];
     }
     if(source[prop]) {
         dest[prop] = dest[prop].concat(source[prop]);
