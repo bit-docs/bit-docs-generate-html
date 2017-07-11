@@ -122,7 +122,7 @@ describe("documentjs/lib/generators/html/build",function(){
 		});
 	});
 
-	it("copy staticDist folders to static dist", function(){
+	it("copy absolute staticDist folders to static dist", function(){
 		this.timeout(120000);
 		return build.staticDist({
 			forceBuild: true,
@@ -141,7 +141,7 @@ describe("documentjs/lib/generators/html/build",function(){
 		});
 	});
 
-	it.only("copy staticDist files to static dist", function(){
+	it("copy relative staticDist folders to static dist", function(){
 		this.timeout(120000);
 		return build.staticDist({
 			forceBuild: true,
@@ -150,13 +150,13 @@ describe("documentjs/lib/generators/html/build",function(){
 					"can-component": "3.0.0-pre.9"
 				}, 
 				staticDist: [
-					'./test-static-dist.html'
+					'./test-static-dist'
 				]
 			},
 		}).then(function(result){
-			return read(path.join(__dirname, "..", result.distFolder, "test-static-dist.html"));
+			return read(path.join(__dirname, "..", result.distFolder, "test.css"));
 		}).then(function(res){
-			assert.ok(/hello world/.test(res), "got static.js with component");
+			assert.ok(/#TestID/.test(res), "got static.js with component");
 		});
 	});
 

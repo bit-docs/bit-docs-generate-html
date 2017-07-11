@@ -23,13 +23,7 @@ module.exports = function(options, folders){
 			if(!path.isAbsolute(dist)){
 				dist = path.join(process.cwd(), dist);
 			}
-			staticDistPromises.push(new Promise(function(resolve, reject){
-				fsExtra.copy(function(err, res){
-					if(err) return reject(err);
-					resolve(res);
-				});
-			}));
-			//staticDistPromises.push(copy(dist, out));
+			staticDistPromises.push(copy(dist, out));
 		});
 	}
 
