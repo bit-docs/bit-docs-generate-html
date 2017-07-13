@@ -8,10 +8,11 @@ var buildHash = require("./build_hash");
 
 /**
  * @parent bit-docs-generate-html/modules
- * @module {Promise} bit-docs-generate-html/build/helpers helpers
+ * @module {Promise} bit-docs-generate-html/build/helpers
  *
- * Gets the default helpers, and helpers in the _{buildHash}/site/templates_
- * folder, and registers them with Handlebars.
+ * Gets the default helpers, and helpers in the
+ * [bit-docs-generate-html/site/templates/buildHash] folder, and registers them
+ * with Handlebars.
  * 
  * @signature `build.helpers(buildTemplatesPromise, docMap, options, getCurrent)`
  *
@@ -22,21 +23,20 @@ var buildHash = require("./build_hash");
  * after the templates have been copied over. Passing this argument enforces
  * that.
  *
- * @param {documentjs.process.docMap} docMap The docMap which contains all
- * docObjects that will be documented.
+ * @param {bit-docs/types/docMap} docMap The [bit-docs/types/docMap] which
+ * contains all [bit-docs/types/docObject]s that will be documented.
  *
  * @param {Object} options
  *
+ * @param {function():bit-docs/types/docObject} getCurrent
  *
- * @param {function():documentjs.process.docObject} getCurrent
+ * A function that when called, returns the [bit-docs/types/docObject]
+ * currently being generated.
  *
- * A function that when called, returns the `docObject` currently being
- * generated.
- *
- * @return {Promise} A promise that resolves when helpers have been added to Handlebars.
+ * @return {Promise} A promise that resolves when helpers have been added to
+ * Handlebars.
  *
  * @body
- *
  */
 module.exports = function(buildTemplatesPromise, docMap, options, getCurrent){
 

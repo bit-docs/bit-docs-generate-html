@@ -1,22 +1,23 @@
 
-var build = require("./build/build"),
-	write = require("./write/write"),
-	Q = require("q"),
-	fs = require("fs-extra"),
-	mkdirs = Q.denodeify(fs.mkdirs),
-	Handlebars = require("handlebars");
+var build = require("./build/build");
+var write = require("./write/write");
+var Q = require("q");
+var fs = require("fs-extra");
+var mkdirs = Q.denodeify(fs.mkdirs);
+var Handlebars = require("handlebars");
 
 /**
- * @function documentjs.generators.html.generate
- * @parent documentjs.generators.html.methods
+ * @parent bit-docs-generate-html/modules
+ * @module {function} bit-docs-generate-html/generate
  *
- * Generates an HTML site for a [documentjs.process.docMap docMap]
+ * Generates an HTML site for a [bit-docs/types/docMap]
  * given configuration siteConfig.
  *
- * @signature `.generate(docMapPromise, siteConfig)`
+ * @signature `generate(docMapPromise, siteConfig)`
  *
- * @param {Promise<documentjs.process.docMap>} docMapPromise A promise that
- * contains a `docMap` created by [documentjs.process.files].
+ * @param {Promise<bit-docs/types/docMap>} docMapPromise A promise that
+ * contains a `docMap` created by [bit-docs-glob-finder/index].
+ * 
  * @param {Object} siteConfig Configuration siteConfig.
  *
  * @return {Promise} A promise that resolves when the site has been built.
