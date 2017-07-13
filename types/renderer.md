@@ -1,5 +1,5 @@
 @parent bit-docs-generate-html/types
-@typedef {function(bit-docs/types/docObject)} bit-docs-generate-html/types/renderer(docObject) renderer
+@typedef {function(bit-docs/types/docObject)} bit-docs-generate-html/types/renderer(docObject) Renderer
 
 A renderer built by [bit-docs-generate-html/build/renderer] that is used to
 render each [bit-docs/types/docObject].
