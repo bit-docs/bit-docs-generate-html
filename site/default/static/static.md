@@ -17,7 +17,7 @@ script.
 
 These defaults get built into a
 [bit-docs-generate-html/site/static/build/buildHash] directory with a simple
-[`package.json`](bit-docs-generate-html/site/static/build/buildHash/package.json)
+[bit-docs-generate-html/site/static/build/buildHash/package.json `package.json`]
 whose `name` is set to `bit-docs-site` so that [steal](https://stealjs.com/)
 can be used to compile less and load dependencies on the front end of the
 generated website.
