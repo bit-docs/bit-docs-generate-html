@@ -96,48 +96,67 @@ describe("documentjs/lib/generators/html",function(){
 		});
 	});
 
-	it("closing script tags are properly escaped", function(done){
+	it("closing script tags are properly escaped", function() {
 		this.timeout(40000);
-		rmdir(path.join(__dirname,"test","tmp"), function(e){
-			if(e) {
-				return done(e);
-			}
-			var options = {
-				dest: path.join(__dirname, "test","tmp"),
-				parent: "index",
-				templateRender: true
-			};
 
+		return Q.denodeify(rmdir)(path.join(__dirname,"test","tmp"))
+			.then(function() {
+				var options = {
+					dest: path.join(__dirname, "test","tmp"),
+					parent: "index",
+					templateRender: true
+				};
 
-			var docMap = Q.Promise(function(resolve){
-				resolve(_.assign({
-					index: {
-						name: "index",
-						type: "page",
-						body: "Hello `{{thing.params.0.script}}`"
-					},
-					thing: {
-						name: "thing",
-						params: [
-							{script: "<script>function() {return true; }</script>"}
-						]
-					}
-				}));
-			});
-
-			html.generate(docMap,options).then(function(){
-				fs.readFile(
-					path.join(__dirname,"test","tmp","index.html"),
-					function(err, data){
-						if(err) {
-							done(err);
+				var docMap = Q.Promise(function(resolve){
+					resolve(_.assign({
+						index: {
+							name: "index",
+							type: "page",
+							body: [
+								"Hello `{{thing.params.0.script}}`",
+								"Load steal using \n\n `{{thing.params.1.script}}`"
+							].join("\n")
+						},
+						thing: {
+							name: "thing",
+							params: [
+								{script: "<script>function() {return true; }</script>"},
+								{script: "<script src=\"./dist/steal/steal.js\"></script>"}
+							]
 						}
-						assert.ok( (""+data).includes("<code>&amp;lt;script&amp;gt;function() {return true; }&amp;lt;\/script&amp;gt;<\/code>"), "script closing tag escaped" );
-						done();
-					});
+					}));
+				});
 
-			},done);
-		});
+				return html.generate(docMap, options);
+			})
+			.then(function() {
+				return readFile(path.join(__dirname, "test", "tmp", "index.html"));
+			})
+			.then(function(data) {
+				var index = data.toString();
+
+				assert.ok(
+					index.includes("<code>&amp;lt;script&amp;gt;function() {return true; }&amp;lt;\/script&amp;gt;<\/code>"),
+					"script closing tag escaped"
+				);
+			})
+			.then(function() {
+				return readFile(path.join(__dirname, "test", "tmp", "thing.html"));
+			})
+			.then(function(data) {
+				var content = data.toString();
+				var rx = /<\/script>/g;
+
+				var docObject = content.substring(
+					content.indexOf("var docObject = "),
+					content.indexOf("};", content.indexOf("var docObject = "))
+				);
+
+				assert.ok(
+					!rx.test(docObject),
+					"docObject should not have unscaped closing script tags"
+				);
+			});
 	});
 
 	it("slashes get put in a folder and can link correctly", function(done){
