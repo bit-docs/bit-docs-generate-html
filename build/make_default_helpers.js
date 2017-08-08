@@ -279,7 +279,7 @@ module.exports = function(docMap, config, getCurrent, Handlebars){
 				//this allows linking to a specific section with the hash syntax (#27)
 				hashParts = name.split("#");
 				name = hashParts.shift();
-				
+
 				docObject = docMap[name]
 				if (docObject) {
 					linkText = parts && parts[2] ? parts[2] : docObject.title || name;
@@ -408,7 +408,9 @@ module.exports = function(docMap, config, getCurrent, Handlebars){
 		},
 		docObjectString: function(){
 			this.pathToRoot = pathToRoot(this.name);
-			return JSON.stringify(deepExtendWithoutBody(this)).replace("</script>", "<\\/script>");
+
+			return JSON.stringify(deepExtendWithoutBody(this))
+					.replace(/<\/script>/g, "<\\/script>");
 		},
 		pathToDest: function(){
 			var currentDir = path.dirname( path.join(config.dest, docsFilename( getCurrent(), config)) );
