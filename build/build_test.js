@@ -1,42 +1,40 @@
-require("./make_default_helpers_test");
-
+var fs = require('fs');
+var path = require('path');
+var assert = require('assert');
+var Q = require('q');
+var rimraf = require('rimraf');
 var getRenderer = require('./get_renderer');
 var getPartials = require('./get_partials');
 var build = require("./build");
-var assert = require('assert');
-var Q = require('q');
-var path = require('path');
-var rmdir = require('rimraf');
-var fs = require('fs');
+
+var rmdir = Q.denodeify(rimraf);
 var read = Q.denodeify(fs.readFile);
 
-describe("documentjs/lib/generators/html/build",function(){
+require("./make_default_helpers_test");
 
-	beforeEach(function(done){
-		rmdir(path.join(__dirname,"..","site","static"), function(e){
-			rmdir(path.join(__dirname,"..","site","templates"), done);
+describe("documentjs/lib/generators/html/build", function(){
+
+	beforeEach(function(){
+		return rmdir(path.join(__dirname, "..", "site", "static")).then(function(){
+			return rmdir(path.join(__dirname, "..", "site", "templates"));
 		});
 	});
 
-	it("get_renderer and get_partial work",function(done){
-		Q.all([
+	it("get_renderer and get_partial work", function(){
+		return Q.all([
 			getRenderer('build/test/templates'),
 			getPartials('build/test/templates')
 		]).then(function(results){
-
 			var renderer = results[0];
-
 			var result = renderer({subject: "World"});
 
 			assert.equal(result, "<html><h1>Hello World</h1></html>");
-			done();
-		},done).catch(done);
+		});
 	});
 
-	it("build.renderer build.templates build.helpers",function(done){
-
+	it("build.renderer build.templates build.helpers", function(){
 		var options = {
-			html: { templates: path.join(__dirname,"test","templates_with_helpers") },
+			html: { templates: path.join(__dirname, "test", "templates_with_helpers") },
 			dest: "XXXXYYYZZZ",
 			forceBuild: true,
 			pageConfig: {
@@ -53,13 +51,11 @@ describe("documentjs/lib/generators/html/build",function(){
 		};
 
 
-		Q.all([
+		return Q.all([
 			build.renderer(buildTemplatesPromise, options),
 			build.helpers(buildTemplatesPromise, {}, options, getCurrent)
 		]).then(function(results){
-
 			var renderer = results[0];
-
 			var result = renderer({
 				subject: "World",
 				src: "./index.js",
@@ -68,14 +64,13 @@ describe("documentjs/lib/generators/html/build",function(){
 			});
 
 			assert.equal(result, "<html><h1>HELLO World</h1>\n</html>");
-			done();
-		},done).catch(done);
+		});
 
 	});
 
-	it("Does ignoreTemplateRender",function(done){
+	it("Does ignoreTemplateRender", function(){
 		var options = {
-			html: {templates: path.join(__dirname,"test","render_body_option")},
+			html: {templates: path.join(__dirname, "test", "render_body_option")},
 			dest: "XXXXYYYZZZ",
 			forceBuild: true,
 			pageConfig: {
@@ -91,18 +86,15 @@ describe("documentjs/lib/generators/html/build",function(){
 			return data;
 		};
 
-		Q.all([
+		return Q.all([
 			build.renderer(buildTemplatesPromise, options),
 			build.helpers(buildTemplatesPromise, {}, options, getCurrent)
 		]).then(function(results){
-
 			var renderer = results[0];
-
 			var result = renderer({body: "{{message}} stuff"});
 
 			assert.equal(result, "<html><h1>{{message}} stuff</h1>\n<p>static</p></html>");
-			done();
-		},done).catch(done);
+		});
 
 	});
 
@@ -116,7 +108,7 @@ describe("documentjs/lib/generators/html/build",function(){
 				}
 			}
 		}).then(function(result){
-			return read(path.join(__dirname, "..", result.distFolder, "bundles","bit-docs-site","static.js"));
+			return read(path.join(__dirname, "..", result.distFolder, "bundles", "bit-docs-site", "static.js"));
 		}).then(function(res){
 			assert.ok(/can-component/.test(res), "got static.js with component");
 		});
@@ -154,9 +146,11 @@ describe("documentjs/lib/generators/html/build",function(){
 		});
 	});
 
-	it("makes linked content",function(done){
+	it("makes linked content", function(){
 		var options = {
-			html: { templates: path.join(__dirname,"test","escaped") },
+			html: {
+				templates: path.join(__dirname, "test", "escaped")
+			},
 			dest: "XXXXYYYZZZ",
 			forceBuild: true,
 			pageConfig: {
@@ -181,18 +175,14 @@ describe("documentjs/lib/generators/html/build",function(){
 			something: {name: "something", title: "<something/>"}
 		};
 
-
-		Q.all([
+		return Q.all([
 			build.renderer(buildTemplatesPromise, options),
 			build.helpers(buildTemplatesPromise, docMap, options, getCurrent)
 		]).then(function(results){
-
 			var renderer = results[0];
-
 			var result = renderer(docObject);
-			assert.equal(result, "<html><p>This is <a href=\"something.html\" title=\"something\"><something/></a></p>\n\n</html>");
-			done();
-		},done).catch(done);
-	});
 
+			assert.equal(result, "<html><p>This is <a href=\"something.html\" title=\"something\"><something/></a></p>\n\n</html>");
+		});
+	});
 });

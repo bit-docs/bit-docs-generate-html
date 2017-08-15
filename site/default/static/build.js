@@ -44,7 +44,7 @@ module.exports = function(options, folders){
 			if(options.debug) {
 				console.log("BUILD: Copying build to dist.");
 			}
-
+			
 			staticDistPromises.push(fsx.copy(path.join(folders.build, "dist"), path.join(folders.dist)));
 			
 			return Q.all(staticDistPromises);
