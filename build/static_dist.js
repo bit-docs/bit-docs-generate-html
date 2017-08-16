@@ -113,6 +113,8 @@ function addPackages(siteConfig, buildFolder) {
 		return readFile(path.join(fullBuildFolderPath, "package.json")).then(function(packageContents){
 			var json = JSON.parse(packageContents);
 
+			json = _.merge(json || {}, siteConfig.html.package);
+			// Legacy support for dependency injection
 			json.dependencies = _.assign(json.dependencies || {},siteConfig.html.dependencies);
 
 			return writeFile( path.join(fullBuildFolderPath, "package.json"), JSON.stringify(json) ).then(function(){
@@ -158,7 +160,7 @@ function installPackages(options, buildFolder, distFolder, hash){
 		if(options.debug) {
 			console.log("BUILD: Getting build module");
 		}
-
+		
 		var build = require("../site/static/build/"+hash+"/build.js");
 		return build(options,{
 			dist: distFolder,

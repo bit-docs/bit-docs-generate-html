@@ -5,3 +5,5 @@ site/static/dist/
 site/templates/
 test/tmp
 .idea/
+.vscode
+.DS_Store
