@@ -4,7 +4,9 @@ var _ = require("lodash"),
 	fs = require("fs"),
 	writeFile = Q.denodeify(fs.writeFile),
 	path = require("path");
-	mkdirs = Q.denodeify(require("fs-extra").mkdirs);
+	mkdirs = Q.denodeify(require("fs-extra").mkdirs),
+	beautifyHtml = require("./beautify_html");
+
 /**
  * @function documentjs.generators.html.write.docObject
  * @parent documentjs.generators.html.write.methods
@@ -28,9 +30,9 @@ var _ = require("lodash"),
  * @return {Promise} A promise that resolves when the file has been written out.
  */
 module.exports = function(docObject, renderer, siteConfig, setCurrentDocObjectForHelpers){
-
-	var out = path.join(siteConfig.dest, filename(docObject, siteConfig) );
+	var out = path.join(siteConfig.dest, filename(docObject, siteConfig));
 	var rendered;
+
 	if(siteConfig.debug) {
 		console.log('OUT: ' + path.relative(process.cwd(),out) );
 	}
@@ -38,15 +40,18 @@ module.exports = function(docObject, renderer, siteConfig, setCurrentDocObjectFo
 	// render the content
 	setCurrentDocObjectForHelpers(docObject);
 
-	if(docObject.renderer) {
+	if (docObject.renderer) {
 		rendered = docObject.renderer(docObject, renderer);
 	} else {
 		rendered = renderer(docObject);
 	}
-	return writeFile(out, rendered).catch(function(){
-		return mkdirs(path.dirname(out)).then(function(){
-			return writeFile(out, rendered);
-		});
-	});
 
+	var output = beautifyHtml(rendered, siteConfig);
+
+	return writeFile(out, output)
+		.catch(function() {
+			return mkdirs(path.dirname(out)).then(function() {
+				return writeFile(out, output);
+			});
+		});
 };
