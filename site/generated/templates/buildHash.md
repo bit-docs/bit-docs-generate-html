@@ -7,7 +7,7 @@ mustache helper JavaScript files.
 @body
 
 Contains templates registered by plugins and the default templates from
-[bit-docs-generate-html/site/default/static].
+[bit-docs-generate-html/site/default/templates].
 
 Plugin templates take precedence over the default templates.
 
