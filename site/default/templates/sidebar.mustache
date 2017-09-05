@@ -1,5 +1,14 @@
 <nav class="sidebar">
 	{{#with (getCurrentTree)}}
+		{{#if children.length}}
+			<ul>
+				<li class="">
+					<a class="home" href="{{urlTo 'BitDocs'}}" title="Home">
+						Home
+					</a>
+				</li>
+			</ul>
+		{{/if}}
 		{{>menu.mustache}}
 	{{/with}}
 </nav>
