@@ -39,4 +39,5 @@ hook:
 
 The listed dependencies are installed by bit-docs using
 [enpeem](https://www.npmjs.com/package/enpeem) which makes them available for
-use by steal on the front end of the generated website.
+use by [steal](https://stealjs.com/) on the front end of the generated
+website.
