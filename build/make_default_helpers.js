@@ -1,17 +1,15 @@
-var _ = require("lodash"),
-	path = require("path"),
-	stmd_to_html = require("../stmd_to_html"),
-	deepExtendWithoutBody = require("./deep_extend_without_body"),
-	escape = require('escape-html'),
-	striptags = require('striptags'),
-	DocMapInfo = require("../doc-map-info"),
-	unescapeHTML = require("unescape-html");
+var _ = require("lodash");
+var path = require("path");
+var stmd_to_html = require("../stmd_to_html");
+var deepExtendWithoutBody = require("./deep_extend_without_body");
+var escape = require('escape-html');
+var striptags = require('striptags');
+var DocMapInfo = require("../doc-map-info");
+var unescapeHTML = require("unescape-html");
+
 // Helper helpers
 
-
-
-var sortChildren = function(child1, child2){
-
+var sortChildren = function(child1, child2) {
 	if(typeof child1.order == "number"){
 		if(typeof child2.order == "number"){
 			// same order given?
@@ -24,7 +22,6 @@ var sortChildren = function(child1, child2){
 			} else {
 				return child1.order - child2.order;
 			}
-
 		} else {
 			return -1;
 		}
@@ -43,15 +40,15 @@ var sortChildren = function(child1, child2){
 
 var docsFilename = require("../write/filename");
 
-var linksRegExp = /[\[](.*?)\]/g,
-	linkRegExp = /^(\S+)\s*(.*)/,
-	httpRegExp = /^http/;
+var linksRegExp = /[\[](.*?)\]/g;
+var linkRegExp = /^(\S+)\s*(.*)/;
+var httpRegExp = /^http/;
 
 /**
-* @add documentjs.generators.html.defaultHelpers
-*/
+ * @parent bit-docs-generate-html/templates
+ * @module {function} bit-docs-generate-html/build/make_default_helpers
+ */
 module.exports = function(docMap, config, getCurrent, Handlebars){
-
 	var docMapInfo = new DocMapInfo(docMap, getCurrent);
 
 	var urlTo = function(name){
@@ -153,9 +150,10 @@ module.exports = function(docMap, config, getCurrent, Handlebars){
         },
 
 		// GENERIC HELPERS
+
 		/**
-		* @function documentjs.generators.html.defaultHelpers.ifEqual
-		*/
+		 * @function bit-docs-generate-html/build/make_default_helpers.ifEqual ifEqual
+		 */
 		ifEqual: function( first, second, options ) {
 			if(first == second){
 				return options.fn(this);
@@ -164,8 +162,8 @@ module.exports = function(docMap, config, getCurrent, Handlebars){
 			}
 		},
 		/**
-		* @function documentjs.generators.html.defaultHelpers.ifAny
-		*/
+		 * @function bit-docs-generate-html/build/make_default_helpers.ifAny ifAny
+		 */
 		ifAny: function(){
 			var last = arguments.length -1,
 				options = arguments[last];
@@ -177,8 +175,8 @@ module.exports = function(docMap, config, getCurrent, Handlebars){
 			return options.inverse(this);
 		},
 		/**
-		* @function documentjs.generators.html.defaultHelpers.ifNotEqual
-		*/
+		 * @function bit-docs-generate-html/build/make_default_helpers.ifNotEqual ifNotEqual
+		 */
 		ifNotEqual: function( first, second, options ) {
 			if(first !== second){
 				return options.fn(this);
@@ -186,7 +184,6 @@ module.exports = function(docMap, config, getCurrent, Handlebars){
 				return options.inverse(this);
 			}
 		},
-
 		config: function(){
 			var configCopy = {};
 			for(var prop in config){
@@ -196,28 +193,29 @@ module.exports = function(docMap, config, getCurrent, Handlebars){
 			}
 			return JSON.stringify(configCopy);
 		},
-
 		/**
-		 * @function documentjs.generators.html.defaultHelpers.generatedWarning
+		 * @function bit-docs-generate-html/build/make_default_helpers.generatedWarning generatedWarning
 		 * @signature `{{{generatedWarning}}}`
 		 *
 		 * @body
 		 *
 		 * ## Use
+		 * 
 		 * ```
 		 * {{{generatedWarning}}}
 		 * ```
+		 * 
 		 * MUST use triple-braces to escape HTML so it is hidden in a comment.
 		 *
 		 * Creates a warning that looks like this:
 		 *
-		 * ```
+		 * ```html
 		 * <!--####################################################################
 		 * THIS IS A GENERATED FILE -- ANY CHANGES MADE WILL BE OVERWRITTEN
 		 *
 		 * INSTEAD CHANGE:
-		 * source: lib/tags/iframe.js
-		 * @@constructor documentjs.tags.iframe
+		 * source: docs/modules/bit-docs-tag-demo/bit-docs.js
+		 * @@module bit-docs-tag-demo
 		 * ######################################################################## -->
 		 * ```
 		 */
@@ -231,10 +229,11 @@ module.exports = function(docMap, config, getCurrent, Handlebars){
 						 "\n######################################################################## -->";
 		},
 		/**
-		* @function documentjs.generators.html.defaultHelpers.makeTitle
-		* Given the docObject context, returns a "pretty" name that is used
-		* in the sidebar and the page header.
-		*/
+		 * @function bit-docs-generate-html/build/make_default_helpers.makeTitle makeTitle
+		 * 
+		 * Given the [bit-docs/types/docObject] context, returns a "pretty"
+		 * name that is used in the sidebar and the page header.
+		 */
 		makeTitle: function () {
 			var node = this, title;
 
@@ -259,9 +258,10 @@ module.exports = function(docMap, config, getCurrent, Handlebars){
 			return title;
 		},
 		/**
-		* @function documentjs.generators.html.defaultHelpers.makeLinks
-		* Looks for links like [].
-		*/
+		 * @function bit-docs-generate-html/build/make_default_helpers.makeLinks makeLinks
+		 *
+		 * Looks for links like [].
+		 */
 		makeLinks: function(text){
 			if (!text) return "";
 			var replacer = function (match, content) {
@@ -313,22 +313,22 @@ module.exports = function(docMap, config, getCurrent, Handlebars){
 			}
 		},
 		/**
-		* @function documentjs.generators.html.defaultHelpers.urlTo
-		*
-		* Returns a url that links to a docObject's name.
-		*/
+		 * @function bit-docs-generate-html/build/make_default_helpers.urlTo urlTo
+		 *
+		 * Returns a url that links to a [bit-docs/types/docObject] name.
+		 */
 		urlTo: function (name) {
 			return urlTo(name);
 		},
 		// If the current docObject is something
 		/**
-		* @function documentjs.generators.html.defaultHelpers.ifActive
-		*
-		* Renders the truthy section if the current item's name matches
-		* the current docObject being rendered
-		*
-		* @param {HandlebarsOptions} options
-		*/
+		 * @function bit-docs-generate-html/build/make_default_helpers.ifActive ifActive
+		 *
+		 * Renders the truthy section if the current item's name matches the
+		 * current docObject being rendered
+		 *
+		 * @param {HandlebarsOptions} options
+		 */
 		ifActive: function(options){
 			if(this.name == getCurrent().name){
 				return options.fn(this);
@@ -337,18 +337,18 @@ module.exports = function(docMap, config, getCurrent, Handlebars){
 			}
 		},
 		/**
-		* @function documentjs.generators.html.defaultHelpers.chain
-		*
-		* Chains multiple calls to mustache.
-		*
-		* @signature `{{chain [helperName...] content}}`
-		*
-		*/
+		 * @function bit-docs-generate-html/build/make_default_helpers.chain chain
+		 *
+		 * Chains multiple calls to mustache.
+		 *
+		 * @signature `{{chain [helperName...] content}}`
+		 */
 		chain: function(){
 			var helpersToCall = [].slice.call(arguments, 0, arguments.length - 2).map(function(name){
 				return Handlebars.helpers[name];
-			}),
-				value = arguments[arguments.length - 2] || "";
+			});
+
+			var value = arguments[arguments.length - 2] || "";
 
 			helpersToCall.forEach(function(helper){
 				value = helper.call(Handlebars, value);
@@ -360,8 +360,8 @@ module.exports = function(docMap, config, getCurrent, Handlebars){
 			return stmd_to_html(content);
 		},
 		renderAsTemplate: function(content) {
-			var templateRender = config.templateRender || getCurrent().templateRender,
-				renderer;
+			var templateRender = config.templateRender || getCurrent().templateRender;
+			var renderer;
 
 			if (templateRender === true) {
 				// Render {{}} if templateRender tag/option is true
@@ -369,14 +369,15 @@ module.exports = function(docMap, config, getCurrent, Handlebars){
 				return renderer(docMap);
 			} else if (templateRender && templateRender.length === 2) {
 				// Render custom delimiters if supplied by templateRender
-				var open = new RegExp(templateRender[0], 'g'),
-					close = new RegExp(templateRender[1], 'g'),
-					toRender = content
+				var open = new RegExp(templateRender[0], 'g');
+				var close = new RegExp(templateRender[1], 'g');
+				var toRender = content
 						.replace(/{{/g, '\\{\\{')
 						.replace(/}}/g, '\\}\\}')
 						.replace(open, '{{')
 						.replace(close, '}}');
 				renderer = Handlebars.compile(toRender);
+
 				return renderer(docMap)
 					.replace(/\\{\\{/g, '{{')
 					.replace(/\\}\\}/g, '}}');
@@ -386,9 +387,9 @@ module.exports = function(docMap, config, getCurrent, Handlebars){
 			}
 		},
 		/**
-		 * @function bit-docs-generate-html/theme/templates/helpers/getTitle
+		 * @function bit-docs-generate-html/build/make_default_helpers.getTitle getTitle
 		 *
-		 * Returns the parent docObject's title.
+		 * Returns the parent [bit-docs/types/docObject] title.
 		 */
 		getTitle: function(){
 			var root = docMap[config.parent];
