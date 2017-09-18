@@ -14,7 +14,7 @@
   "author": "Bitovi",
   "license": "MIT",
   "dependencies": {
-      "steal": "1.X",
-      "steal-less": "1.X"
+    "steal-less": "^1.2.0",
+    "steal-tools": "^1.8.0"
   }
 }

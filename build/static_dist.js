@@ -13,31 +13,38 @@ var remove = Q.denodeify(fs.remove);
 
 /**
  * @parent bit-docs-generate-html/modules
- * @module {function} bit-docs-generate-html/build/static_dist staticDist
+ * @module {function} bit-docs-generate-html/build/static_dist
  *
  * Builds a static distributable which will eventually be copied to the
  * `static` folder of the generated output.
  *
- * @signature `.build.staticDist(options)`
+ * @signature `staticDist(options)`
  *
  * Builds the static distributable with the following steps:
  *
- * 1. Copies everything from _site/default/static_ to _site/static/build_.
- * 2. Copies the path in `options.dest` to _site/static/build_.
- * 3. `require`s the module at _site/static/build/build.js_.
+ * 1. Copies everything from [bit-docs-generate-html/site/default/static] to
+ * [bit-docs-generate-html/site/static/build/buildHash].
+ * 
+ * 2. Copies the path in `options.dest` to
+ * [bit-docs-generate-html/site/static/build/buildHash].
+ * 
+ * 3. `require`s the "build" module at
+ * [bit-docs-generate-html/site/static/build/buildHash/build.js].
+ * 
  * 4. Calls that "build" module function with the options and returns the
  * result.
  *
  * The "build" module is expected to build a minified distributable and copy
- * the necessary contents to _site/static/dist_ and return a promise that
- * resolves when complete.
+ * the necessary contents to
+ * [bit-docs-generate-html/site/static/dist/buildHash] and return a promise
+ * that resolves when complete.
  *
  * @param {{}} options
  *
  *   @option {Boolean} [forceBuild=false] If set to `true`, rebuilds the static
  *   bundle even if it has already been built.
  *   
- *   @option {String} dest The final destination ouput of the static
+ *   @option {String} dest The final destination output of the static
  *   distributable.
  *
  *   @option {String} static The location of static content used to overwrite or
@@ -113,6 +120,8 @@ function addPackages(siteConfig, buildFolder) {
 		return readFile(path.join(fullBuildFolderPath, "package.json")).then(function(packageContents){
 			var json = JSON.parse(packageContents);
 
+			json = _.merge(json || {}, siteConfig.html.package);
+			// Legacy support for dependency injection
 			json.dependencies = _.assign(json.dependencies || {},siteConfig.html.dependencies);
 
 			return writeFile( path.join(fullBuildFolderPath, "package.json"), JSON.stringify(json) ).then(function(){
@@ -158,7 +167,7 @@ function installPackages(options, buildFolder, distFolder, hash){
 		if(options.debug) {
 			console.log("BUILD: Getting build module");
 		}
-
+		
 		var build = require("../site/static/build/"+hash+"/build.js");
 		return build(options,{
 			dist: distFolder,

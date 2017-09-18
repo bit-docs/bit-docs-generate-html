@@ -1,20 +1,22 @@
-var fs = require('fs'),
-	path = require('path'),
-	filename = require("./filename"),
-	Q = require('q'),
-	writeFile = Q.denodeify(fs.writeFile),
-	mkdirs = Q.denodeify(require("fs-extra").mkdirs);
+var fs = require('fs');
+var path = require('path');
+var filename = require("./filename");
+var Q = require('q');
+var writeFile = Q.denodeify(fs.writeFile);
+var mkdirs = Q.denodeify(require("fs-extra").mkdirs);
 
 /**
- * @function bitDocs.generators.html.write.searchMap
- * @parent bitDocs.generators.html.write.methods
+ * @parent bit-docs-generate-html/modules
+ * @module {function} bit-docs-generate-html/write/search_map
  *
- * Writes out a simplified [documentjs.process.docMap docMap] to be used for searching.
+ * Writes out a simplified [bit-docs/types/docMap] to be used for searching.
  *
- * @signature `.write.searchMap(docMap, siteConfig)`
+ * @signature `searchMap(docMap, siteConfig)`
  *
- * @param {documentjs.process.docMap} docMap
+ * @param {bit-docs/types/docMap} docMap
+ * 
  * @param {Object} siteConfig
+ * 
  * @return {Promise} Resolves when searchMap has been written.
  */
 module.exports = function(docMap, siteConfig) {

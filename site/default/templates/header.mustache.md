@@ -1,5 +1,5 @@
-@parent bit-docs-generate-html/templates
-@page bit-docs-generate-html/site/default/templates/header.mustache header.mustache
+@parent bit-docs-generate-html/site/default/templates
+@module bit-docs-generate-html/site/default/templates/header.mustache
 
 @description The default header template.
 

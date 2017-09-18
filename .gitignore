@@ -1,3 +1,4 @@
+package-lock.json
 node_modules
 site/static/
 site/static/build/
@@ -5,3 +6,5 @@ site/static/dist/
 site/templates/
 test/tmp
 .idea/
+.vscode
+.DS_Store

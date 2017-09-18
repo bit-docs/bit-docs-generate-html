@@ -1,5 +1,5 @@
-@parent bit-docs-generate-html/templates
-@page bit-docs-generate-html/site/default/templates/body.mustache body.mustache
+@parent bit-docs-generate-html/site/default/templates
+@module bit-docs-generate-html/site/default/templates/body.mustache
 
 @description The default body template.
 
