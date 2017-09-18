@@ -7,7 +7,7 @@ var path = require("path");
  * @parent bit-docs-generate-html/site/default/static
  * @module {function} bit-docs-generate-html/site/default/static/build.js
  *
- * The `bit-docs-site` script for building static assets.
+ * @description The `bit-docs-site` script for building static assets.
  *
  * @signature `build(options, folders)`
  *

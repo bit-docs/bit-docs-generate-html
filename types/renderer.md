@@ -5,7 +5,7 @@ A renderer built by [bit-docs-generate-html/build/renderer] that is used to
 render each [bit-docs/types/docObject].
 
 @param {bit-docs/types/docObject} docObject The
-[bit-docs/types/tagCollection] data of a comment.
+[bit-docs-process-tags/types/tagCollection] data of a comment.
 
 @return {String} The HTML to be outputted.
 
