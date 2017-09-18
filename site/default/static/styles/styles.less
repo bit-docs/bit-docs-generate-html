@@ -90,6 +90,19 @@ header, footer {
 
   .main:extend(.container) {
     overflow-x: hidden; // fix to hide <pre> code overflow
+
+		// Collapse <p> for parameters, returns, and non-nested options
+		.parameters, .returns, div.options {
+			margin-bottom: 1em;
+
+			p:first-of-type {
+				display: inline;
+
+				& + * {
+					margin-top: 1em;
+				}
+			}
+		}
   }
 }
 
