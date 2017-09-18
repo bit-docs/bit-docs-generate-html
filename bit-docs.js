@@ -3,8 +3,11 @@ var _ = require("lodash");
 var tags = require("./tags/tags");
 
 var mergeOnto = function(prop, dest, source){
+    if(!dest[prop]) {
+        dest[prop] = [];
+    }
     if(source[prop]) {
-        dest[prop] = dest[prop].concat(source[prop])
+        dest[prop] = dest[prop].concat(source[prop]);
     }
 };
 
@@ -50,12 +53,13 @@ module.exports = function(bitDocs){
             siteConfig.html = {
                 dependencies: {},
                 static: [],
-                templates: []
+                templates: [],
+                staticDist: []
             };
         }
         var html = siteConfig.html;
         _.assign(html.dependencies, htmlConfig.dependencies || {});
-
+        mergeOnto("staticDist", html, htmlConfig);
         mergeOnto("static", html, htmlConfig);
         mergeOnto("templates", html, htmlConfig);
     });

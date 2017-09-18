@@ -49,16 +49,12 @@ module.exports = function(docMapPromise, siteConfig){
 	var helpersReadyPromise = docMapPromise.then(function(docMap){
 		return build.helpers(buildTemplatesPromise, docMap, siteConfig, getCurrent);
 	});
-	var searchMapPromise = docMapPromise.then(function(docMap){
-		return write.searchMap(docMap, siteConfig);
-	});
 
 	var docsPromise = Q.all([
 			docMapPromise,
 			build.renderer(buildTemplatesPromise, siteConfig),
 			helpersReadyPromise,
-			mkdirs(siteConfig.dest),
-			searchMapPromise
+			mkdirs(siteConfig.dest)
 	]).then(function(results){
 		var docMap = results[0],
 			renderer = results[1];

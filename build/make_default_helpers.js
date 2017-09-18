@@ -138,7 +138,7 @@ module.exports = function(docMap, config, getCurrent, Handlebars){
 
             // Sort by docObject "ordered" property
             ordered.sort(function(x,y) {
-                return x.docObject.order > y.docObject.order;
+                return x.docObject.order - y.docObject.order;
             });
 
             // Insert ordered items to their index in the alphabetical array
@@ -224,7 +224,7 @@ module.exports = function(docMap, config, getCurrent, Handlebars){
 			return "<!--####################################################################\n" +
 						 "\tTHIS IS A GENERATED FILE -- ANY CHANGES MADE WILL BE OVERWRITTEN\n\n" +
 						 '\tINSTEAD CHANGE:\n' +
-						 "\tsource: " + current.src +
+						 "\tsource: " + (current.src ? current.src.path : 'unknown') +
 						 (current.type ? '\n\t@' + current.type + " " + current.name : '') +
 						 "\n######################################################################## -->";
 		},
@@ -267,23 +267,34 @@ module.exports = function(docMap, config, getCurrent, Handlebars){
 			var replacer = function (match, content) {
 				var parts = content.match(linkRegExp),
 					name,
+					hashParts,
 					description,
 					linkText,
-					docObject;
+					docObject,
+					href;
 
 				name = parts ? parts[1].replace('::', '.prototype.') : content;
+
+				//the name can be something like 'some-name#someId'
+				//this allows linking to a specific section with the hash syntax (#27)
+				hashParts = name.split("#");
+				name = hashParts.shift();
 
 				docObject = docMap[name]
 				if (docObject) {
 					linkText = parts && parts[2] ? parts[2] : docObject.title || name;
 					description = docObject.description || name;
 
-					return '<a href="' + urlTo(name) + '" title="' + stripMarkdown(description) + '">' + linkText + '</a>';
+					//if there is anything in the hashParts, append it to the end of the url
+					href = urlTo(name) + (hashParts.length >= 1 ? ("#" + hashParts.join("#")) : "");
+
+					return '<a href="' + href + '" title="' + stripMarkdown(description) + '">' + linkText + '</a>';
 				}
 
 				if (httpRegExp.test(name)) {
 					linkText = parts && parts[2] ? parts[2] : name;
-					return '<a href="' + name + '" title="' + escape(linkText) + '">' + linkText + '</a>';
+					href = name;
+					return '<a href="' + href + '" title="' + escape(linkText) + '">' + linkText + '</a>';
 				}
 
 				return match;
@@ -397,7 +408,9 @@ module.exports = function(docMap, config, getCurrent, Handlebars){
 		},
 		docObjectString: function(){
 			this.pathToRoot = pathToRoot(this.name);
-			return JSON.stringify(deepExtendWithoutBody(this)).replace("</script>", "<\\/script>");
+
+			return JSON.stringify(deepExtendWithoutBody(this))
+					.replace(/<\/script>/g, "<\\/script>");
 		},
 		pathToDest: function(){
 			var currentDir = path.dirname( path.join(config.dest, docsFilename( getCurrent(), config)) );

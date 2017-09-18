@@ -17,4 +17,3 @@
 exports.docMap = require("./doc_map");
 exports.docObject = require("./doc_object");
 exports.staticDist = require("./static_dist");
-exports.searchMap = require("./search_map");
