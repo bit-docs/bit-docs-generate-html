@@ -1,48 +1,47 @@
-
-var getDefaultHelpers = require("./make_default_helpers"),
-	_ = require("lodash");
+var getDefaultHelpers = require("./make_default_helpers");
+var _ = require("lodash");
 var fsx = require('../fs_extras');
 var path = require('path');
 var md5 = require("md5");
-var Handlebars = require("handlebars"),
-	buildHash = require("./build_hash");
+var Handlebars = require("handlebars");
+var buildHash = require("./build_hash");
+
 /**
- * @function documentjs.generators.html.build.helpers
- * @parent documentjs.generators.html.build.methods
+ * @parent bit-docs-generate-html/modules
+ * @module {Promise} bit-docs-generate-html/build/helpers
  *
- * Gets the default helpers and helpers in the _documentjs/site/templates_ folder and
- * registers them with Handlebars.
- *
- * @signature `.build.helpers(buildTemplatesPromise, docMap, options, getCurrent)`
+ * Gets the default helpers, and helpers in the
+ * [bit-docs-generate-html/site/templates/buildHash] folder, and registers them
+ * with Handlebars.
+ * 
+ * @signature `build.helpers(buildTemplatesPromise, docMap, options, getCurrent)`
  *
  * Registers helpers
  *
- *
  * @param {Promise<Handlebars>} buildTemplatesPromise The result of calling
- * [documentjs.generators.html.build.templates]. Building the helpers
- * must happen after the templates have been copied over. Passing this
- * argument enforces that.
+ * [bit-docs-generate-html/build/templates]. Building the helpers must happen
+ * after the templates have been copied over. Passing this argument enforces
+ * that.
  *
- * @param {documentjs.process.docMap} docMap The docMap which contains all
- * docObjects that will be documented.
+ * @param {bit-docs/types/docMap} docMap The [bit-docs/types/docMap] which
+ * contains all [bit-docs/types/docObject]s that will be documented.
  *
  * @param {Object} options
  *
+ * @param {function():bit-docs/types/docObject} getCurrent
  *
- * @param {function():documentjs.process.docObject} getCurrent
+ * A function that when called, returns the [bit-docs/types/docObject]
+ * currently being generated.
  *
- * A function that when called, returns the `docObject` currently being
- * generated.
- *
- * @return {Promise} A promise that resolves when helpers have been added to Handlebars.
+ * @return {Promise} A promise that resolves when helpers have been added to
+ * Handlebars.
  *
  * @body
- *
  */
 module.exports = function(buildTemplatesPromise, docMap, options, getCurrent){
 
 	return buildTemplatesPromise.then(function(OtherHandlebars){
-		// get the default heleprs
+		// get the default helpers
 		var helpers = getDefaultHelpers(docMap,options,getCurrent, OtherHandlebars);
 
 		var templatesPath = path.join('site/templates', buildHash(options) );
@@ -72,9 +71,5 @@ module.exports = function(buildTemplatesPromise, docMap, options, getCurrent){
 		});
 
 	});
-
-
-
-
 
 };

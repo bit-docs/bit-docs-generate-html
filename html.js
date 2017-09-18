@@ -1,23 +1,18 @@
 /**
- * @property {{}} documentjs.generators.html generators.html
- * @parent DocumentJS.apis.internal
+ * @parent bit-docs-generate-html/modules
+ * @module {{}} bit-docs-generate-html/html
  * 
- * @group documentjs.generators.html.properties 0 properties
- * @group documentjs.generators.html.methods 1 methods
- * @group documentjs.generators.html.defaultHelpers 2 default helpers
- * 
- * A collection of helpers used to build and compile the templates
- * used to render each [documentjs.process.docObject docObject] into
- * HTML and build the static JS and CSS used by that HTML.
+ * A collection of helpers used to build and compile the templates used to
+ * render each [bit-docs/types/docObject] into HTML and build the static JS and
+ * CSS used by that HTML.
  * 
  * @body
  * 
- * ## Use
- * 
- *     var documentjs = require("documentjs");
- *     documentjs.process.file(...)
+ * Requires and exports these other modules:
+ * - [bit-docs-generate-html/build/build] as `build`.
+ * - [bit-docs-generate-html/write/write] as `write`.
+ * - [bit-docs-generate-html/generate] as `generate`.
  */
-
 exports.build = require("./build/build");
 exports.write = require("./write/write");
 exports.generate = require("./generate");

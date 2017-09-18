@@ -3,6 +3,21 @@ var fsx = require('../../../../fs_extras');
 var Q = require('q');
 var path = require("path");
 
+/**
+ * @parent bit-docs-generate-html/site/default/static
+ * @module {function} bit-docs-generate-html/site/default/static/build.js
+ *
+ * @description The `bit-docs-site` script for building static assets.
+ *
+ * @signature `build(options, folders)`
+ *
+ * Copies everything and `steal.js`.
+ * 
+ * @body
+ * 
+ * Gets copied to
+ * [bit-docs-generate-html/site/static/build/buildHash/build.js].
+ */
 module.exports = function(options, folders){
 	var copyDir = function(name){
 		return fsx.mkdirs(path.join(folders.dist,name)).then(function(){

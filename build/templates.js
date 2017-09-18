@@ -3,37 +3,38 @@ var	Q = require('q');
 var md5 = require('md5');
 var path = require('path');
 var promiseLock = require("../promise_lock");
-var queue = promiseLock(),
-	buildHash = require("./build_hash"),
-	_ = require("lodash");
+var queue = promiseLock();
+var buildHash = require("./build_hash");
+var _ = require("lodash");
 
 /**
- * @function documentjs.generators.html.build.templates
- * @parent documentjs.generators.html.build.methods
+ * @parent bit-docs-generate-html/modules
+ * @module {function} bit-docs-generate-html/build/templates
  *
- * Creates a folder with all the templates used to generate
- * the documentation.
+ * Creates a folder with all the templates used to generate the documentation.
  *
- * @signature `.build.templates(siteConfig)`
+ * @signature `build.templates(siteConfig)`
  *
- * Builds the _documentjs/site/templates_ folder with the following
- * steps:
+ * Builds the [bit-docs-generate-html/site/templates/buildHash] folder with the
+ * following steps:
  *
- * 1. Copies _documentjs/site/default/templates_ to _documentjs/site/templates_.
- * 2. Copies `siteConfig.templates` to _documentjs/site/templates_.
+ * 1. Copies [bit-docs-generate-html/site/default/templates] to
+ * [bit-docs-generate-html/site/templates/buildHash].
+ * 2. Copies `siteConfig.templates` to
+ * [bit-docs-generate-html/site/templates/buildHash].
  *
  * @param {{}} siteConfig
  *
  * siteConfig used to configure the behavior of the templates.
  *
- * @option {Boolean} [forceBuild=false] If set to `true`, rebuilds the
- * static bundle even if it has already been built.
+ *   @option {Boolean} [forceBuild=false] If set to `true`, rebuilds the static
+ *   bundle even if it has already been built.
+ *   
+ *   @option {String} [templates] The location of templates used to overwrite or
+ *   add to the default templates.
  *
- * @option {String} [templates] The location of templates used to overwrite or
- * add to the default templates.
- *
- * @return {Promise} A promise that resolves if the static dist was successfully created.
- *
+ * @return {Promise} A promise that resolves if the static dist was
+ * successfully created.
  */
 module.exports = function(siteConfig){
 

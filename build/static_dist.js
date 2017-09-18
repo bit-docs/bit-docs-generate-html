@@ -1,53 +1,60 @@
-var fss = require('../fs_extras.js'),
-	Q = require('q'),
-	path = require('path'),
-	md5 = require('md5'),
-	promiseLock = require("../promise_lock"),
-	npm = require("enpeem"),
-	fs = require("fs-extra"),
-	_ = require("lodash");
+var fss = require('../fs_extras.js');
+var Q = require('q');
+var path = require('path');
+var md5 = require('md5');
+var promiseLock = require("../promise_lock");
+var npm = require("enpeem");
+var fs = require("fs-extra");
+var _ = require("lodash");
 
-var queue = promiseLock(),
-	buildHash = require("./build_hash"),
-	remove = Q.denodeify(fs.remove);
+var queue = promiseLock();
+var buildHash = require("./build_hash");
+var remove = Q.denodeify(fs.remove);
 
 /**
- * @module {function} bit-docs-generate-html/build/static_dist
  * @parent bit-docs-generate-html/modules
+ * @module {function} bit-docs-generate-html/build/static_dist
  *
- * Builds a static distributable which will eventually be copied
- * to the `static` folder of the generated output.
+ * Builds a static distributable which will eventually be copied to the
+ * `static` folder of the generated output.
  *
- * @signature `.build.staticDist(options)`
+ * @signature `staticDist(options)`
  *
  * Builds the static distributable with the following steps:
  *
- * 1. Copies everything from _documentjs/site/default/static_ to
- *    _documentjs/site/static/build_.
- * 2. Copies the path in `options.dest` to _documentjs/site/static/build_.
- * 3. `require`s the module at _documentjs/site/static/build/build.js_.
- * 4. Calls that "build" module function with the options and returns the result.
+ * 1. Copies everything from [bit-docs-generate-html/site/default/static] to
+ * [bit-docs-generate-html/site/static/build/buildHash].
+ * 
+ * 2. Copies the path in `options.dest` to
+ * [bit-docs-generate-html/site/static/build/buildHash].
+ * 
+ * 3. `require`s the "build" module at
+ * [bit-docs-generate-html/site/static/build/buildHash/build.js].
+ * 
+ * 4. Calls that "build" module function with the options and returns the
+ * result.
  *
- * The "build" module is expected to build a minified distributable
- * and copy the necessary contents to _documentjs/site/static/dist_ and
- * return a promise that resolves when complete.
+ * The "build" module is expected to build a minified distributable and copy
+ * the necessary contents to
+ * [bit-docs-generate-html/site/static/dist/buildHash] and return a promise
+ * that resolves when complete.
  *
  * @param {{}} options
  *
- * @option {Boolean} [forceBuild=false] If set to `true`, rebuilds the
- * static bundle even if it has already been built.
+ *   @option {Boolean} [forceBuild=false] If set to `true`, rebuilds the static
+ *   bundle even if it has already been built.
+ *   
+ *   @option {String} dest The final destination output of the static
+ *   distributable.
  *
- * @option {String} dest The final destination ouput of the static
- * distributable.
+ *   @option {String} static The location of static content used to overwrite or
+ *   add to the default static content.
+ *   
+ *   @option {Boolean} [minifyBuild=true] If set to `false` the build will not be
+ *   minified. This behavior should be implemented by the "build" module.
  *
- * @option {String} static The location of static content used to overwrite or
- * add to the default static content.
- *
- * @option {Boolean} [minifyBuild=true] If set to `false` the build will not
- * be minified. This behavior should be implemented by the "build" module.
- *
- * @return {Promise} A promise that resolves if the static dist was successfully created.
- *
+ * @return {Promise} A promise that resolves if the static dist was
+ * successfully created.
  */
 module.exports = function(options){
 	// only run one build at a time.
@@ -56,8 +63,8 @@ module.exports = function(options){
 
 		var hash = buildHash(options);
 
-		var distFolder = path.join("site","static","dist", hash),
-			buildFolder = path.join("site","static","build", hash);
+		var distFolder = path.join("site","static","dist", hash);
+		var buildFolder = path.join("site","static","build", hash);
 
 		var mkdirPromise = Q.all([
 			fss.mkdirs(distFolder),
@@ -103,8 +110,8 @@ module.exports = function(options){
 
 };
 
-var readFile = Q.denodeify(fs.readFile),
-	writeFile = Q.denodeify(fs.writeFile);
+var readFile = Q.denodeify(fs.readFile);
+var writeFile = Q.denodeify(fs.writeFile);
 
 function addPackages(siteConfig, buildFolder) {
 	if(siteConfig.html && siteConfig.html.dependencies) {
@@ -168,7 +175,6 @@ function installPackages(options, buildFolder, distFolder, hash){
 		});
 	});
 }
-
 
 function callIfFunction(value){
   if(typeof value === "function") {
