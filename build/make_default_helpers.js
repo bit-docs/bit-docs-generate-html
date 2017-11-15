@@ -211,7 +211,7 @@ module.exports = function(docMap, config, getCurrent, Handlebars){
 		 *
 		 * ```html
 		 * <!--####################################################################
-		 * THIS IS A GENERATED FILE -- ANY CHANGES MADE WILL BE OVERWRITTEN
+		 * THIS IS A GENERATED FILE — ANY CHANGES MADE WILL BE OVERWRITTEN
 		 *
 		 * INSTEAD CHANGE:
 		 * source: docs/modules/bit-docs-tag-demo/bit-docs.js
@@ -222,7 +222,7 @@ module.exports = function(docMap, config, getCurrent, Handlebars){
 		generatedWarning: function(){
 			var current = getCurrent();
 			return "<!--####################################################################\n" +
-						 "\tTHIS IS A GENERATED FILE -- ANY CHANGES MADE WILL BE OVERWRITTEN\n\n" +
+						 "\tTHIS IS A GENERATED FILE — ANY CHANGES MADE WILL BE OVERWRITTEN\n\n" +
 						 '\tINSTEAD CHANGE:\n' +
 						 "\tsource: " + (current && current.src && current.src.path ? current.src.path : 'unknown') +
 						 (current.type ? '\n\t@' + current.type + " " + current.name : '') +
