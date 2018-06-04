@@ -182,7 +182,7 @@ describe("documentjs/lib/generators/html/build", function(){
 			var renderer = results[0];
 			var result = renderer(docObject);
 
-			assert.equal(result, "<html><p>This is <a href=\"something.html\" title=\"something\"><something/></a></p>\n\n</html>");
+			assert.equal(result, "<html><p>This is <a href=\"something.html\" title=\"something\">&lt;something/&gt;</a></p>\n\n</html>");
 		});
 	});
 });

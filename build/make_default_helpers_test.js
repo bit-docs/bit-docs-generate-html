@@ -23,6 +23,11 @@ var docMap = {
 		      "%>"
 		    ],
 		    "comment": " "
+		  },
+		  "can-element": {
+			name: "can-element",
+			title: "<can-element>",
+			description: "custom elements"
 		  }
 		},
 		siteConfig = {
@@ -73,5 +78,21 @@ describe("documentjs/lib/generators/html/build/make_default_helpers",function(){
 		assert.equal(actual, expected);
 		done();
 	});
+
+	it("makeLinks handles [document-name#linkId Link Text] format (#27)",function(done){
+		var md = "[can-core#someId Link Text]",
+				expected = '<a href="can-core.html#someId" title="Simply the Best">Link Text</a>',
+				actual = defaultHelpers.makeLinks(md);
+		assert.equal(actual, expected);
+		done();
+	});
+
+	it("makeLinks handles titles that are custom elements without dashes are not escaped", function(done){
+		var md = "[can-element]",
+				expected = '<a href="can-element.html" title="custom elements"><can-element></a>',
+				actual = defaultHelpers.makeLinks(md);
+		assert.equal(actual, expected);
+		done();
+	})
 
 });

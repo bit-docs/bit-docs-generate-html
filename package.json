@@ -26,6 +26,7 @@
   },
   "homepage": "https://github.com/bit-docs/bit-docs-generate-html#readme",
   "dependencies": {
+    "can-string": "0.0.5",
     "enpeem": "^2.1.0",
     "escape-html": "^1.0.3",
     "fs-extra": "0.30.0",

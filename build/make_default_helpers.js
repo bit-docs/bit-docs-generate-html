@@ -7,6 +7,18 @@ var striptags = require('striptags');
 var DocMapInfo = require("../doc-map-info");
 var unescapeHTML = require("unescape-html");
 
+
+function escapeOnlySingleElements(text) {
+	//This could be an alternate way of detecting if markdown escaped
+	//var html = stmd_to_html("<p>"+text+"</p>\n");
+	//if(html === "<p>"+text+"</p>\n") { }
+	if(/^<\w+\/?>$/.test(text)) {
+		return escape(text);
+	} else {
+		return text;
+	}
+}
+
 // Helper helpers
 
 var sortChildren = function(child1, child2) {
@@ -200,11 +212,11 @@ module.exports = function(docMap, config, getCurrent, Handlebars){
 		 * @body
 		 *
 		 * ## Use
-		 * 
+		 *
 		 * ```
 		 * {{{generatedWarning}}}
 		 * ```
-		 * 
+		 *
 		 * MUST use triple-braces to escape HTML so it is hidden in a comment.
 		 *
 		 * Creates a warning that looks like this:
@@ -230,7 +242,7 @@ module.exports = function(docMap, config, getCurrent, Handlebars){
 		},
 		/**
 		 * @function bit-docs-generate-html/build/make_default_helpers.makeTitle makeTitle
-		 * 
+		 *
 		 * Given the [bit-docs/types/docObject] context, returns a "pretty"
 		 * name that is used in the sidebar and the page header.
 		 */
@@ -288,13 +300,15 @@ module.exports = function(docMap, config, getCurrent, Handlebars){
 					//if there is anything in the hashParts, append it to the end of the url
 					href = urlTo(name) + (hashParts.length >= 1 ? ("#" + hashParts.join("#")) : "");
 
-					return '<a href="' + href + '" title="' + stripMarkdown(description) + '">' + linkText + '</a>';
+
+
+					return '<a href="' + href + '" title="' + stripMarkdown(description) + '">' + escapeOnlySingleElements( linkText ) + '</a>';
 				}
 
 				if (httpRegExp.test(name)) {
 					linkText = parts && parts[2] ? parts[2] : name;
 					href = name;
-					return '<a href="' + href + '" title="' + escape(linkText) + '">' + linkText + '</a>';
+					return '<a href="' + href + '" title="' + escape(linkText) + '">' + escapeOnlySingleElements( linkText ) + '</a>';
 				}
 
 				return match;
