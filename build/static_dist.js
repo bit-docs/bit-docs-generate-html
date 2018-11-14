@@ -24,13 +24,13 @@ var remove = Q.denodeify(fs.remove);
  *
  * 1. Copies everything from [bit-docs-generate-html/site/default/static] to
  * [bit-docs-generate-html/site/static/build/buildHash].
- * 
+ *
  * 2. Copies the path in `options.dest` to
  * [bit-docs-generate-html/site/static/build/buildHash].
- * 
+ *
  * 3. `require`s the "build" module at
  * [bit-docs-generate-html/site/static/build/buildHash/build.js].
- * 
+ *
  * 4. Calls that "build" module function with the options and returns the
  * result.
  *
@@ -43,13 +43,13 @@ var remove = Q.denodeify(fs.remove);
  *
  *   @option {Boolean} [forceBuild=false] If set to `true`, rebuilds the static
  *   bundle even if it has already been built.
- *   
+ *
  *   @option {String} dest The final destination output of the static
  *   distributable.
  *
  *   @option {String} static The location of static content used to overwrite or
  *   add to the default static content.
- *   
+ *
  *   @option {Boolean} [minifyBuild=true] If set to `false` the build will not be
  *   minified. This behavior should be implemented by the "build" module.
  *
@@ -167,7 +167,7 @@ function installPackages(options, buildFolder, distFolder, hash){
 		if(options.debug) {
 			console.log("BUILD: Getting build module");
 		}
-		
+
 		var build = require("../site/static/build/"+hash+"/build.js");
 		return build(options,{
 			dist: distFolder,
@@ -178,7 +178,9 @@ function installPackages(options, buildFolder, distFolder, hash){
 
 function callIfFunction(value){
   if(typeof value === "function") {
-	value();
+    try {
+      value();
+    } catch(e) {}
   }
   return value;
 }
