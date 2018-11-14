@@ -170,7 +170,9 @@ function installPackages(options, buildFolder, distFolder, hash){
 
 function callIfFunction(value){
   if(typeof value === "function") {
-	value();
+    try {
+	    value();
+    } catch(e) {}
   }
   return value;
 }
