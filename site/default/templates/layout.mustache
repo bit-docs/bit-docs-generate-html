@@ -19,7 +19,7 @@
 		var docObject = {{{docObjectString}}};
 	</script>
 
-	{{#if devBuild}}
+	{{#if (siteConfig "devBuild")}}
 		<script type='text/javascript'
 			data-main="bit-docs-site/static"
 			src="./static/node_modules/steal/steal.js"></script>

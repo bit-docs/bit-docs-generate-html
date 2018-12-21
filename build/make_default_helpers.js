@@ -420,6 +420,9 @@ module.exports = function(docMap, config, getCurrent, Handlebars){
 			var root = docMap[config.parent];
 			return (root.title || root.name)+ " - "+(this.title || this.name);
 		},
+		siteConfig: function(key){
+			return _.get(config, key);
+		},
 		docObjectString: function(){
 			this.pathToRoot = pathToRoot(this.name);
 

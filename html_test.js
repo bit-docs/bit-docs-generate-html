@@ -45,6 +45,13 @@ describe("documentjs/lib/generators/html", function(){
 				if(fs.existsSync(path.join(__dirname, "test", "tmp", "static", "bundles", "static.js"))) {
 					throw new Error("static build exists");
 				}
+				return readFile(path.join(__dirname, "test", "tmp","index.html")).then(function(source){
+					if(/node_modules\/steal/.test(source.toString())) {
+
+					} else {
+						throw new Error("no node_modules/steal")
+					}
+				})
 			});
 		});
 	});
