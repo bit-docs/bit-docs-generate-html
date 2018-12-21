@@ -47,9 +47,11 @@ describe("documentjs/lib/generators/html", function(){
 				}
 				return readFile(path.join(__dirname, "test", "tmp","index.html")).then(function(source){
 					if(/node_modules\/steal/.test(source.toString())) {
-
+						if(/bit-docs-site\/static.css/.test(source.toString())) {
+							throw new Error("still loading production static release");
+						}
 					} else {
-						throw new Error("no node_modules/steal")
+						throw new Error("no node_modules/steal");
 					}
 				})
 			});
