@@ -216,7 +216,7 @@ describe("bit-docs-generate-html", function(){
 		});
 	});
 
-	it.only("basic sidebar works", function(){
+	it("basic sidebar works", function(){
 		this.timeout(240000);
 		return rmdir(path.join(__dirname, "test", "tmp")).then(function(){
 			var options = {
