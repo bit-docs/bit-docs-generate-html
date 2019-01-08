@@ -10,7 +10,7 @@ var readFile = Q.denodeify(fs.readFile);
 
 require("./build/build_test");
 
-describe("documentjs/lib/generators/html", function(){
+describe("bit-docs-generate-html", function(){
 	beforeEach(function(){
 		return rmdir(path.join(__dirname, "site", "static")).then(function(e){
 			return rmdir(path.join(__dirname, "site", "templates"));
@@ -216,7 +216,7 @@ describe("documentjs/lib/generators/html", function(){
 		});
 	});
 
-	it("basic sidebar works", function(){
+	it.only("basic sidebar works", function(){
 		this.timeout(240000);
 		return rmdir(path.join(__dirname, "test", "tmp")).then(function(){
 			var options = {
@@ -271,6 +271,7 @@ describe("documentjs/lib/generators/html", function(){
 		}).then(function(data){
 			assert.ok( (""+data).indexOf('href="Asia.html"') !== -1, "link to asia" );
 			assert.ok( (""+data).indexOf('href="China.html"') !== -1, "link to china" );
+			assert.ok( (""+data).indexOf('href="index.html"') !== -1, "link to earth as index" );
 		});
 	});
 });
