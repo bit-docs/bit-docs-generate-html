@@ -27,17 +27,17 @@ var mergeOnto = function(prop, dest, source){
  * This plugin registers onto these hooks:
  *   - `tags`
  *   - `generator`
- * 
+ *
  * Registering the `tags` hook adds the `@templaterender` tag.
- * 
+ *
  * Registering the `generator` hook makes it so this plugin can generate the
  * HTML output from the provided [bit-docs/types/docMap]. The entry point for
  * this generator is [bit-docs-generate-html/html].
- * 
+ *
  * This plugin handles the `html` hook, which allows other plugins to hook into
  * the generation process, to do things like include their own static assets,
  * or provide their own mustache templates.
- * 
+ *
  * This plugin provides a default set of mustache templates and static assets.
  * These mustache templates and less styles can be copied over into a theme
  * plugin and customized. Any custom mustache template will override a default
@@ -50,13 +50,14 @@ module.exports = function(bitDocs){
 
     bitDocs.handle("html", function(siteConfig, htmlConfig) {
         if(!siteConfig.html) {
-            siteConfig.html = {
+            siteConfig.html = {};
+        }
+        _.defaultsDeep(siteConfig.html, {
                 dependencies: {},
                 static: [],
                 templates: [],
                 staticDist: []
-            };
-        }
+        });
         var html = siteConfig.html;
         _.assign(html.dependencies, htmlConfig.dependencies || {});
         mergeOnto("staticDist", html, htmlConfig);

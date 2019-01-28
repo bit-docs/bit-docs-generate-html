@@ -7,6 +7,7 @@ var rimraf = require('rimraf');
 var html = require("./html");
 var rmdir = Q.denodeify(rimraf);
 var readFile = Q.denodeify(fs.readFile);
+var bitDocsHTML = require("./bit-docs");
 
 require("./build/build_test");
 
@@ -274,4 +275,16 @@ describe("bit-docs-generate-html", function(){
 			assert.ok( (""+data).indexOf('href="index.html"') !== -1, "link to earth as index" );
 		});
 	});
+
+	it("doesn't blow away html values", function(){
+		bitDocsHTML({
+			register: function(){},
+			handle: function(name, fn) {
+				var siteConfig = {html : {templates: "foo"}};
+				fn(siteConfig, {});
+
+				assert.ok(typeof siteConfig.html.dependencies === "object", "is an object")
+			}
+		});
+	})
 });
