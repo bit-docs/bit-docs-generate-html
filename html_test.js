@@ -276,7 +276,7 @@ describe("bit-docs-generate-html", function(){
 		});
 	});
 
-	it("doesn't blow away html values", function(){
+	it("doesn't blow away dependency values", function(){
 		bitDocsHTML({
 			register: function(){},
 			handle: function(name, fn) {

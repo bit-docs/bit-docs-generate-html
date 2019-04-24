@@ -97,7 +97,7 @@ module.exports = function(options){
 			}
 
 			return addPackages(options, buildFolder).then(function(){
-				if(options.forceBuild) {
+				if(options.forceBuild && !options.skipInstall) {
 					return deletePackages(options, buildFolder, distFolder, hash);
 				}
 			}).then(function(){
