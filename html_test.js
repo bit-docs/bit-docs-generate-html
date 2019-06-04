@@ -286,5 +286,34 @@ describe("bit-docs-generate-html", function(){
 				assert.ok(typeof siteConfig.html.dependencies === "object", "is an object")
 			}
 		});
-	})
+	});
+
+	it("showdown works", function(){
+		this.timeout(240000);
+		return rmdir(path.join(__dirname, "test", "tmp")).then(function(){
+			var options = {
+				dest: path.join(__dirname, "test", "tmp"),
+				parent: "index",
+				showdown: {
+					tasklists: true
+				}
+			};
+
+			var docMap = Q.Promise(function(resolve){
+				resolve(_.assign({
+					index: {
+						name: "index",
+						type: "page",
+						body: "- [x] first\n- [ ] end"
+					}
+				}));
+			});
+
+			return html.generate(docMap,options);
+		}).then(function(){
+			return readFile(path.join(__dirname, "test", "tmp", "index.html"));
+		}).then(function(data){
+			assert.ok( (""+data).indexOf('<input type="checkbox"') !== -1, "has checkbox" );
+		});
+	});
 });

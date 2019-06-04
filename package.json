@@ -34,6 +34,7 @@
     "lodash": "~4.13.1",
     "md5": "2.1.0",
     "q": "^1.5.0",
+    "showdown": "^1.9.0",
     "steal-tools": "^1.8.0",
     "striptags": "^2.1.1",
     "unescape-html": "^1.0.0"

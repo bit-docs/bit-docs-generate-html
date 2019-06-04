@@ -6,7 +6,7 @@ var escape = require('escape-html');
 var striptags = require('striptags');
 var DocMapInfo = require("../doc-map-info");
 var unescapeHTML = require("unescape-html");
-
+var makeShowdown = require("../showdown_to_html");
 
 function escapeOnlySingleElements(text) {
 	//This could be an alternate way of detecting if markdown escaped
@@ -62,6 +62,12 @@ var httpRegExp = /^http/;
  */
 module.exports = function(docMap, config, getCurrent, Handlebars){
 	var docMapInfo = new DocMapInfo(docMap, getCurrent);
+
+	var showdown_to_html;
+	if(config.showdown) {
+		showdown_to_html = makeShowdown(config.showdown);
+	}
+
 
 	var urlTo = function(name){
 		var currentDir = path.dirname( path.join(config.dest, docsFilename( getCurrent(), config)) );
@@ -382,7 +388,11 @@ module.exports = function(docMap, config, getCurrent, Handlebars){
 			return value;
 		},
 		makeHtml: function(content){
-			return stmd_to_html(content);
+			if(config.showdown) {
+				return showdown_to_html(content)
+			} else {
+				return stmd_to_html(content);
+			}
 		},
 		renderAsTemplate: function(content) {
 			var templateRender = config.templateRender || getCurrent().templateRender;
