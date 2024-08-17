@@ -10,6 +10,7 @@ var readFile = Q.denodeify(fs.readFile);
 var bitDocsHTML = require("./bit-docs");
 
 require("./build/build_test");
+require("./stmd_test");
 
 describe("bit-docs-generate-html", function(){
 	beforeEach(function(){
