@@ -1476,8 +1476,12 @@ var renderBlock = function(block, in_tight_list) {
                     this.innersep);
     case 'ATXHeader':
     case 'SetextHeader':
+      var rendered = this.renderInlines(block.inline_content);
       tag = 'h' + block.level;
-      return inTags(tag, [], this.renderInlines(block.inline_content));
+      attr = [
+        ['id', makeHeadingId(rendered)]
+      ];
+      return inTags(tag, attr, rendered);
     case 'IndentedCode':
       return inTags('pre', [],
               inTags('code', [], this.escape(block.string_content)));
@@ -1545,3 +1549,10 @@ exports.DocParser = DocParser;
 exports.HtmlRenderer = HtmlRenderer;
 
 })(typeof exports === 'undefined' ? this.stmd = {} : exports);
+
+function makeHeadingId(text) {
+	return (text || "")
+		.replace(/\s/g, "-")      // replace spaces with dashes
+		.replace(/[^\w\-]/g, "")  // remove punctuation
+		.toLowerCase();
+}
